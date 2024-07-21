@@ -61,6 +61,10 @@
         <Name>Length</Name>
         <ReferencedMemberName>RowCount</ReferencedMemberName>
       </AliasProperty>
+      <AliasProperty>
+        <Name>Subscribers</Name>
+        <ReferencedMemberName>Subscriber</ReferencedMemberName>
+      </AliasProperty>
       <ScriptProperty>
         <Name>ColumnCount</Name>
         <GetScriptBlock>
@@ -71,6 +75,18 @@
         <Name>RowCount</Name>
         <GetScriptBlock>
                         return $this.Rows.Count
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Subscriber</Name>
+        <GetScriptBlock>
+                        param()
+
+@(foreach ($eventSubscriber in Get-EventSubscriber) {
+    if ($eventSubscriber.SourceObject.GetHashCode() -eq $this.GetHashCode()) {        
+        $eventSubscriber
+    }
+})
                     </GetScriptBlock>
       </ScriptProperty>
     </Members>
@@ -86,6 +102,10 @@
         <Name>Length</Name>
         <ReferencedMemberName>RowCount</ReferencedMemberName>
       </AliasProperty>
+      <AliasProperty>
+        <Name>Subscribers</Name>
+        <ReferencedMemberName>Subscriber</ReferencedMemberName>
+      </AliasProperty>
       <ScriptProperty>
         <Name>ColumnCount</Name>
         <GetScriptBlock>
@@ -96,6 +116,18 @@
         <Name>RowCount</Name>
         <GetScriptBlock>
                         return $this.Rows.Count
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>Subscriber</Name>
+        <GetScriptBlock>
+                        param()
+
+@(foreach ($eventSubscriber in Get-EventSubscriber) {
+    if ($eventSubscriber.SourceObject.GetHashCode() -eq $this.GetHashCode()) {        
+        $eventSubscriber
+    }
+})
                     </GetScriptBlock>
       </ScriptProperty>
     </Members>
