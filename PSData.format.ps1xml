@@ -59,8 +59,6 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-          </TableColumnHeader>
-          <TableColumnHeader>
             <Label>TableName</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -68,9 +66,6 @@
           <TableRowEntry>
             <Wrap />
             <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>Namespace</PropertyName>
-              </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock> $_.TableName -join [Environment]::NewLine </ScriptBlock>
               </TableColumnItem>
