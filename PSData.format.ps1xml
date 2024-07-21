@@ -48,6 +48,29 @@
       </TableControl>
     </View>
     <View>
+      <Name>PSDataCommand</Name>
+      <ViewSelectedBy>
+        <TypeName>PSDataCommand</TypeName>
+        <TypeName>DataCommand</TypeName>
+        <TypeName>System.Data.Common.DbCommand</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>CommandText</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>Default</Name>
       <ViewSelectedBy>
         <TypeName>PSDataSet</TypeName>
