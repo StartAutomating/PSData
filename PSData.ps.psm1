@@ -43,7 +43,7 @@ foreach ($foundFile in Get-ChildItem -File -Recurse -Path $PSScriptRoot) {
     $newFile.Length = $foundFile.Length
     $null = $myFilesTable.Rows.Add($newFile)
 }
-
+$myFilesTable.AcceptChanges()
 $myTypesFiles = $myFilesTable.Select("Fullname LIKE '*.types.ps1xml'").Fullname -as [IO.FileInfo[]]
 $myScriptTypes = $myTypesFiles | Select-Xml -Path { $_ } -XPath //Type
 $myTypesTable = [Data.DataTable]::new('TypeData')
@@ -51,7 +51,9 @@ $null = $myDataSet.Tables.add($myTypesTable)
 $myTypesTable.Columns.AddRange(@(
     [Data.DataColumn]::new('TypeName', [string], '', 'Attribute'),
     [Data.DataColumn]::new('MemberName', [string], '', 'Attribute')
-    [Data.DataColumn]::new('Export', [bool], 'TRUE', 'Attribute')
+    $exportColumn = [Data.DataColumn]::new('Export', [bool], '', 'Attribute')
+    $exportColumn.DefaultValue = $true
+    $exportColumn
     [Data.DataColumn]::new('Member', [object])
 ))
 $myScriptTypeData = Get-TypeData -TypeName @($myScriptTypes.Node.Name)
@@ -62,22 +64,38 @@ foreach ($myTypeData in $myScriptTypeData) {
         $newTypeRow.TypeName = $myTypeData.TypeName
         $newTypeRow.MemberName = $myMember.Key
         $newTypeRow.Member = $myMember.Value
+        
+        :NotExported do {
+            if ($newTypeRow.Member -is [Management.Automation.Runspaces.ScriptPropertyData]) {
+                $newTypeRow.Export = $false
+                break NotExported
+            }
+            if ($newTypeRow.Member -is [Management.Automation.Runspaces.AliasPropertyData] -and 
+                ($myTypeData.Members[$newTypeRow.Member.ReferencedMemberName] -isnot [Management.Automation.Runspaces.ScriptMethodData])
+            ) {
+                $newTypeRow.Export = $false
+                break NotExported
+            }
+            foreach ($notMatch in $DoNotExportTypes) {
+                if ($newTypeRow.TypeName -match $notMatch) { 
+                    $newTypeRow.Export = $false
+                    break NotExported
+                }
+            }
+            foreach ($notMatch in $DoNotExportMembers) {
+                if ($myMember.Key -match $notMatch) { 
+                    $newTypeRow.Export = $false
+                    break NotExported
+                }
+            }
+        } while ($false)
+        
         $null = $myTypesTable.Rows.Add($newTypeRow)
     }    
 }
 
-$myScriptTypeCommands = :nextMember foreach ($myScriptMember in $myTypesTable) {        
-    $myMember = $myScriptMember.Member
-    $myScriptType = $myScriptMember.TypeName
-    foreach ($notMatch in $DoNotExportTypes) {
-        if ($myScriptType -match $notMatch) { continue nextMember }
-    }
-    $myMemberName = $myScriptMember.MemberName    
-    foreach ($notMatch in $DoNotExportMembers) {
-        if ($myMemberName -match $notMatch) { continue nextMember }
-    }
-
-    if ($myMember -is [Management.Automation.Runspaces.ScriptMethodData]) {            
+$myScriptTypeCommands = :nextMember foreach ($myScriptMember in $myTypesTable) {
+    if ($myMember -is [Management.Automation.Runspaces.ScriptMethodData]) {
         $myFunctionName = 
             if ($myMemberName -in $KnownVerbs) {
                 "$($myMemberName)-$($myScriptType)" -replace '[\._]',''
@@ -101,5 +119,5 @@ $myScriptTypeCommands = :nextMember foreach ($myScriptMember in $myTypesTable) {
 
 Export-ModuleMember -Alias * -Function * -Variable $myModule.Name
 
-$myModule.psobject.properties.add([psnoteproperty]::new('MyDataSet', $myDataSet), $true)
 $myModule.psobject.properties.add([psnoteproperty]::new('DB', $myDataSet), $true)
+$myModule.psobject.properties.add([psnoteproperty]::new('PSData', $myDataSet), $true)
