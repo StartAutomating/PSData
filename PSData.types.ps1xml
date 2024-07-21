@@ -780,6 +780,34 @@ $columnNames = @($this.Columns.ColumnName)
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
+        <Name>CSV</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as CSV
+.DESCRIPTION
+    Gets a CSV representation of a DataTable.
+#&gt;
+param()
+
+
+function toCsv {
+    param([string[]]$columns)
+    $columns -replace # escape quotes,
+        '"','""' -replace # quote items,
+        '(?&gt;^|$)','"' -join ',' # join with commas.
+}
+
+$myColumns = @($this.Columns.ColumnName)
+toCsv $myColumns
+
+foreach ($dataRow in $this.Rows) {
+    toCsv $dataRow[$myColumns]
+}
+
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
         <Name>InputScript</Name>
         <GetScriptBlock>
                         &lt;#
@@ -1108,6 +1136,34 @@ $columnNames = @($this.Columns.ColumnName)
         <Name>ColumnCount</Name>
         <GetScriptBlock>
                         return $this.Columns.Count
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>CSV</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as CSV
+.DESCRIPTION
+    Gets a CSV representation of a DataTable.
+#&gt;
+param()
+
+
+function toCsv {
+    param([string[]]$columns)
+    $columns -replace # escape quotes,
+        '"','""' -replace # quote items,
+        '(?&gt;^|$)','"' -join ',' # join with commas.
+}
+
+$myColumns = @($this.Columns.ColumnName)
+toCsv $myColumns
+
+foreach ($dataRow in $this.Rows) {
+    toCsv $dataRow[$myColumns]
+}
+
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
