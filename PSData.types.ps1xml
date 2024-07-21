@@ -319,6 +319,27 @@ $this.Table.TableName
   <Type>
     <Name>PSDataSet</Name>
     <Members>
+      <ScriptMethod>
+        <Name>Get</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets the data sets
+.DESCRIPTION
+    Gets the data sets from the current session.
+.EXAMPLE
+    Get-PSDataSet
+.EXAMPLE
+    ([PSCustomObject]@{PSTypeName='PSDataSet'}).Get()
+#&gt;
+param()
+foreach ($variable in @(Get-Variable)) {
+    if ($variable.Value -is [Data.DataSet]) {
+        $variable.Value
+    }
+}
+                    </Script>
+      </ScriptMethod>
       <ScriptProperty>
         <Name>TableName</Name>
         <GetScriptBlock>
@@ -344,6 +365,27 @@ $this.Table.TableName
   <Type>
     <Name>System.Data.DataSet</Name>
     <Members>
+      <ScriptMethod>
+        <Name>Get</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets the data sets
+.DESCRIPTION
+    Gets the data sets from the current session.
+.EXAMPLE
+    Get-PSDataSet
+.EXAMPLE
+    ([PSCustomObject]@{PSTypeName='PSDataSet'}).Get()
+#&gt;
+param()
+foreach ($variable in @(Get-Variable)) {
+    if ($variable.Value -is [Data.DataSet]) {
+        $variable.Value
+    }
+}
+                    </Script>
+      </ScriptMethod>
       <ScriptProperty>
         <Name>TableName</Name>
         <GetScriptBlock>
