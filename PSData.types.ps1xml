@@ -1,6 +1,42 @@
 <!-- Generated with EZOut 2.0.6: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
 <Types>
   <Type>
+    <Name>PSDataColumn</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>TableName</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the name of the table.
+.DESCRIPTION
+    Gets the name of the table that the column belongs to.
+#&gt;
+$this.Table.TableName
+
+                    </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.Data.DataColumn</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>TableName</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the name of the table.
+.DESCRIPTION
+    Gets the name of the table that the column belongs to.
+#&gt;
+$this.Table.TableName
+
+                    </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
     <Name>PSDataSet</Name>
     <Members>
       <ScriptProperty>
