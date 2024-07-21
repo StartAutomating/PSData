@@ -8,19 +8,7 @@ $myModule.pstypenames.insert(0, $myModule.Name)
 New-PSDrive -Name $MyModule.Name -PSProvider FileSystem -Scope Global -Root $PSScriptRoot -ErrorAction Ignore
 
 if ($home) {
-    $MyModuleUserDirectory = 
-        if ($IsWindows -or (-not $IsMacOS -and -not $IsLinux)) {
-            if ($env:APPDATA) {
-                Join-Path $env:APPDATA $($MyModule.Name)
-            } else {
-                Join-Path $home $($MyModule.Name)
-            }
-            
-        } elseif ($IsMacOS) {
-            Join-Path $home "Library/Application Support/$($MyModule.Name)/Default"
-        } elseif ($IsLinux) {
-            Join-Path $home ".config/$($MyModule.Name)"
-        }
+    $MyModuleUserDirectory = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) $MyModule.Name    
     if (-not (Test-Path $MyModuleUserDirectory)) {
         $null = New-Item -ItemType Directory -Path $MyModuleUserDirectory -Force
     }
@@ -66,7 +54,7 @@ $myTypesTable.Columns.AddRange(@(
     [Data.DataColumn]::new('Export', [bool], 'TRUE', 'Attribute')
     [Data.DataColumn]::new('Member', [object])
 ))
-$myScriptTypeData = Get-TypeData -TypeName $myScriptTypes.Node.Name
+$myScriptTypeData = Get-TypeData -TypeName @($myScriptTypes.Node.Name)
 foreach ($myTypeData in $myScriptTypeData) {    
     if (-not $myTypeData.Members) { continue }
     foreach ($myMember in $myTypeData.Members.GetEnumerator()) {
@@ -114,3 +102,4 @@ $myScriptTypeCommands = :nextMember foreach ($myScriptMember in $myTypesTable) {
 Export-ModuleMember -Alias * -Function * -Variable $myModule.Name
 
 $myModule.psobject.properties.add([psnoteproperty]::new('MyDataSet', $myDataSet), $true)
+$myModule.psobject.properties.add([psnoteproperty]::new('DB', $myDataSet), $true)
