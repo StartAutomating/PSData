@@ -50,4 +50,23 @@
       </ScriptProperty>
     </Members>
   </Type>
+  <Type>
+    <Name>PSDataTable</Name>
+    <Members>
+      <AliasProperty>
+        <Name>Count</Name>
+        <ReferencedMemberName>RowCount</ReferencedMemberName>
+      </AliasProperty>
+      <AliasProperty>
+        <Name>Length</Name>
+        <ReferencedMemberName>RowCount</ReferencedMemberName>
+      </AliasProperty>
+      <ScriptProperty>
+        <Name>RowCount</Name>
+        <GetScriptBlock>
+                        return $this.Rows.Count
+                    </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
 </Types>
