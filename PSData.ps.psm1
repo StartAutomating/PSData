@@ -8,11 +8,23 @@ $myModule.pstypenames.insert(0, $myModule.Name)
 New-PSDrive -Name $MyModule.Name -PSProvider FileSystem -Scope Global -Root $PSScriptRoot -ErrorAction Ignore
 
 if ($home) {
-    $MyModuleProfileDirectory = Join-Path $home $MyModule.Name
-    if (-not (Test-Path $MyModuleProfileDirectory)) {
-        $null = New-Item -ItemType Directory -Path $MyModuleProfileDirectory -Force
+    $MyModuleUserDirectory = 
+        if ($IsWindows -or (-not $IsMacOS -and -not $IsLinux)) {
+            if ($env:APPDATA) {
+                Join-Path $env:APPDATA $($MyModule.Name)
+            } else {
+                Join-Path $home $($MyModule.Name)
+            }
+            
+        } elseif ($IsMacOS) {
+            Join-Path $home "Library/Application Support/$($MyModule.Name)/Default"
+        } elseif ($IsLinux) {
+            Join-Path $home ".config/$($MyModule.Name)"
+        }
+    if (-not (Test-Path $MyModuleUserDirectory)) {
+        $null = New-Item -ItemType Directory -Path $MyModuleUserDirectory -Force
     }
-    New-PSDrive -Name "My$($MyModule.Name)" -PSProvider FileSystem -Scope Global -Root $MyModuleProfileDirectory -ErrorAction Ignore
+    New-PSDrive -Name "My$($MyModule.Name)" -PSProvider FileSystem -Scope Global -Root $MyModuleUserDirectory -ErrorAction Ignore
 }
 
 $KnownVerbs = Get-Verb | Select-Object -ExpandProperty Verb
