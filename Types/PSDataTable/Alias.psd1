@@ -1,4 +1,5 @@
 @{
     Length = 'RowCount'
-    Count  = 'RowCount'    
+    Count  = 'RowCount'
+    Subscribers = 'Subscriber'
 }
