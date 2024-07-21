@@ -319,16 +319,76 @@ $this.Table.TableName
   <Type>
     <Name>PSDataCommand</Name>
     <Members>
+      <ScriptMethod>
+        <Name>Get</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets data commands
+.DESCRIPTION
+    Gets loaded data commands.
+.NOTES
+    Will only get commands that have been saved to a variable, and are a `[Data.Common.DbCommand]`.
+#&gt;
+param()
+
+foreach ($variable in @(Get-Variable)) {
+    if ($variable.Value -is [Data.Common.DbCommand]) {
+        $variable.Value
+    }
+}
+                    </Script>
+      </ScriptMethod>
     </Members>
   </Type>
   <Type>
     <Name>DataCommand</Name>
     <Members>
+      <ScriptMethod>
+        <Name>Get</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets data commands
+.DESCRIPTION
+    Gets loaded data commands.
+.NOTES
+    Will only get commands that have been saved to a variable, and are a `[Data.Common.DbCommand]`.
+#&gt;
+param()
+
+foreach ($variable in @(Get-Variable)) {
+    if ($variable.Value -is [Data.Common.DbCommand]) {
+        $variable.Value
+    }
+}
+                    </Script>
+      </ScriptMethod>
     </Members>
   </Type>
   <Type>
     <Name>System.Data.Common.DbCommand</Name>
     <Members>
+      <ScriptMethod>
+        <Name>Get</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets data commands
+.DESCRIPTION
+    Gets loaded data commands.
+.NOTES
+    Will only get commands that have been saved to a variable, and are a `[Data.Common.DbCommand]`.
+#&gt;
+param()
+
+foreach ($variable in @(Get-Variable)) {
+    if ($variable.Value -is [Data.Common.DbCommand]) {
+        $variable.Value
+    }
+}
+                    </Script>
+      </ScriptMethod>
     </Members>
   </Type>
   <Type>
