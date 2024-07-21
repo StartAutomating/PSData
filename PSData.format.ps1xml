@@ -73,6 +73,79 @@
     <View>
       <Name>Default</Name>
       <ViewSelectedBy>
+        <TypeName>PSDataConnection</TypeName>
+        <TypeName>System.Data.Common.DbConnection</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>Database</PropertyName>
+      </GroupBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DastSource</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>WorkstationId</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>ID</Name>
+      <ViewSelectedBy>
+        <TypeName>PSDataConnection</TypeName>
+        <TypeName>System.Data.Common.DbConnection</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <AutoSize />
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DataSource</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>WorkstationId</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ClientConnectionId</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Default</Name>
+      <ViewSelectedBy>
         <TypeName>PSDataSet</TypeName>
         <TypeName>System.Data.DataSet</TypeName>
       </ViewSelectedBy>
