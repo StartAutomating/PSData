@@ -53,6 +53,9 @@
         <TypeName>PSDataSet</TypeName>
         <TypeName>System.Data.DataSet</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>DataSetName</PropertyName>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -66,7 +69,7 @@
             <Wrap />
             <TableColumnItems>
               <TableColumnItem>
-                <PropertyName>DataSetName</PropertyName>
+                <PropertyName>Namespace</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock> $_.TableName -join [Environment]::NewLine </ScriptBlock>
