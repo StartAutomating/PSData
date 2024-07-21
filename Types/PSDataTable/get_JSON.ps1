@@ -8,4 +8,4 @@ param()
 if ($this -isnot [Data.DataTable]) { return }
 if (-not $this.Columns.Count) { return }
 $columnNames = @($this.Columns.ColumnName)
-$this | Select-Object -Property $columnNames | ConvertTo-Json
+$this | Select-Object -Property $columnNames | ConvertTo-Json -Depth $FormatEnumerationLimit
