@@ -863,7 +863,7 @@ param()
 if ($this -isnot [Data.DataTable]) { return }
 if (-not $this.Columns.Count) { return }
 $columnNames = @($this.Columns.ColumnName)
-$this | Select-Object -Property $columnNames | ConvertTo-Json
+$this | Select-Object -Property $columnNames | ConvertTo-Json -Depth $FormatEnumerationLimit
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
@@ -879,7 +879,7 @@ param()
 if ($this -isnot [Data.DataTable]) { return }
 if (-not $this.Columns.Count) { return }
 $columnNames = @($this.Columns.ColumnName)
-$this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json -Compress } }
+$this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json -Compress -Depth $FormatEnumerationLimit } }
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
@@ -1096,7 +1096,7 @@ param()
 if ($this -isnot [Data.DataTable]) { return }
 if (-not $this.Columns.Count) { return }
 $columnNames = @($this.Columns.ColumnName)
-$this | Select-Object -Property $columnNames | ConvertTo-Json
+$this | Select-Object -Property $columnNames | ConvertTo-Json -Depth $FormatEnumerationLimit
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
@@ -1112,7 +1112,7 @@ param()
 if ($this -isnot [Data.DataTable]) { return }
 if (-not $this.Columns.Count) { return }
 $columnNames = @($this.Columns.ColumnName)
-$this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json -Compress } }
+$this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json -Compress -Depth $FormatEnumerationLimit } }
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
