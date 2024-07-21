@@ -762,6 +762,22 @@ return ,$aTable
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
+        <Name>JSON</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets a data table as JSON
+.DESCRIPTION
+    Gets a JSON representation of a data table
+#&gt;
+param()
+if ($this -isnot [Data.DataTable]) { return }
+if (-not $this.Columns.Count) { return }
+$columnNames = @($this.Columns.ColumnName)
+$this | Select-Object -Property $columnNames | ConvertTo-Json
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
         <Name>JSONL</Name>
         <GetScriptBlock>
                         &lt;#
@@ -887,6 +903,22 @@ return ,$aTable
         <Name>ColumnCount</Name>
         <GetScriptBlock>
                         return $this.Columns.Count
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>JSON</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets a data table as JSON
+.DESCRIPTION
+    Gets a JSON representation of a data table
+#&gt;
+param()
+if ($this -isnot [Data.DataTable]) { return }
+if (-not $this.Columns.Count) { return }
+$columnNames = @($this.Columns.ColumnName)
+$this | Select-Object -Property $columnNames | ConvertTo-Json
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
