@@ -2,6 +2,52 @@
 <Configuration>
   <ViewDefinitions>
     <View>
+      <Name>Basic</Name>
+      <ViewSelectedBy>
+        <TypeName>PSDataColumn</TypeName>
+        <TypeName>System.Data.DataColumn</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>TableName</PropertyName>
+      </GroupBy>
+      <TableControl>
+        <AutoSize />
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>ColumnName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DataType</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AutoIncrement</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>DefaultValue</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Expression</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>Default</Name>
       <ViewSelectedBy>
         <TypeName>PSDataSet</TypeName>
