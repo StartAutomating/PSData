@@ -317,6 +317,21 @@ $this.Table.TableName
     </Members>
   </Type>
   <Type>
+    <Name>PSDataCommand</Name>
+    <Members>
+    </Members>
+  </Type>
+  <Type>
+    <Name>DataCommand</Name>
+    <Members>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.Data.Common.DbCommand</Name>
+    <Members>
+    </Members>
+  </Type>
+  <Type>
     <Name>PSDataSet</Name>
     <Members>
       <ScriptMethod>
