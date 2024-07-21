@@ -15,7 +15,15 @@ if ($home) {
     New-PSDrive -Name "My$($MyModule.Name)" -PSProvider FileSystem -Scope Global -Root $MyModuleUserDirectory -ErrorAction Ignore
 }
 
-$KnownVerbs = Get-Verb | Select-Object -ExpandProperty Verb
+$verbs = [Data.DataTable]::new('Verbs')
+$verbs.Columns.AddRange(@(
+    [Data.DataColumn]::new('Verb', [string], '', 'Attribute'),
+    [Data.DataColumn]::new('Description', [string], '', 'Attribute')
+    [Data.DataColumn]::new('Group', [string], '', 'Attribute')
+    [Data.DataColumn]::new('AliasPrefix', [string], '', 'Attribute')
+))
+$KnownVerbs = Get-Verb | & $verbs.InputScript | Select-Object -ExpandProperty Verb
+$verbs.AcceptChanges()
 $DoNotExportTypes = @('^System\.', 'Collection$')
 $DoNotExportMembers = @('\.format','^Import\.')
 
@@ -25,24 +33,18 @@ $script:this = $myModule
 
 $myDataSet = [Data.DataSet]::new($myModule.Name)
 $myDataSet.Tables.Add([Data.DataTable]::new('Files'))
+$myDataSet.Tables.Add($verbs)
 $myFilesTable = $myDataSet.Tables['Files']
 $myFilesTable.Columns.AddRange(@(
     [Data.DataColumn]::new('Fullname', [string], '', 'Attribute'),
+    [Data.DataColumn]::new('Name', [string], '', 'Attribute'),
     [Data.DataColumn]::new('Extension', [string], '', 'Attribute'),
     [Data.DataColumn]::new('CreationTime', [datetime], '', 'Attribute'),
     [Data.DataColumn]::new('LastWriteTime', [datetime], '', 'Attribute'),
     [Data.DataColumn]::new('Length', [long], '', 'Attribute')
 ))
 $myFilesTable.PrimaryKey = $myFilesTable.Columns['Fullname']
-foreach ($foundFile in Get-ChildItem -File -Recurse -Path $PSScriptRoot) {
-    $newFile = $myFilesTable.NewRow()
-    $newFile.Fullname = $foundFile.FullName
-    $newFile.Extension = $foundFile.Extension
-    $newFile.CreationTime = $foundFile.CreationTime
-    $newFile.LastWriteTime = $foundFile.LastWriteTime
-    $newFile.Length = $foundFile.Length
-    $null = $myFilesTable.Rows.Add($newFile)
-}
+$myFiles = Get-ChildItem -File -Recurse -Path $PSScriptRoot | & $myFilesTable.InputScript
 $myFilesTable.AcceptChanges()
 $myTypesFiles = $myFilesTable.Select("Fullname LIKE '*.types.ps1xml'").Fullname -as [IO.FileInfo[]]
 $myScriptTypes = $myTypesFiles | Select-Xml -Path { $_ } -XPath //Type
@@ -56,6 +58,7 @@ $myTypesTable.Columns.AddRange(@(
     $exportColumn
     [Data.DataColumn]::new('Member', [object])
 ))
+
 $myScriptTypeData = Get-TypeData -TypeName @($myScriptTypes.Node.Name)
 foreach ($myTypeData in $myScriptTypeData) {    
     if (-not $myTypeData.Members) { continue }
@@ -94,7 +97,10 @@ foreach ($myTypeData in $myScriptTypeData) {
     }    
 }
 
-$myScriptTypeCommands = :nextMember foreach ($myScriptMember in $myTypesTable) {
+$myScriptTypeCommands = foreach ($myScriptMember in $myTypesTable.Select("Export = 'True'")) {
+    $myScriptType = $myScriptMember.TypeName
+    $myMemberName = $myScriptMember.MemberName
+    $myMember = $myScriptMember.Member
     if ($myMember -is [Management.Automation.Runspaces.ScriptMethodData]) {
         $myFunctionName = 
             if ($myMemberName -in $KnownVerbs) {
