@@ -602,6 +602,27 @@ foreach ($variable in @(Get-Variable)) {
                     </Script>
       </ScriptMethod>
       <ScriptProperty>
+        <Name>InputScript</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the input scripts for the data set
+.DESCRIPTION
+    Gets the input scripts for the current data set.
+
+    Only uniquely named tables will be included in the output.
+#&gt;
+$inputScripts = [Ordered]@{}
+foreach ($table in $this.Tables) {    
+    if (-not $table.TableName) {
+        continue
+    }
+    $inputScripts[$table.TableName] = $table.InputScript
+}
+return $inputScripts
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
         <Name>TableName</Name>
         <GetScriptBlock>
                         &lt;#
@@ -647,6 +668,27 @@ foreach ($variable in @(Get-Variable)) {
 }
                     </Script>
       </ScriptMethod>
+      <ScriptProperty>
+        <Name>InputScript</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the input scripts for the data set
+.DESCRIPTION
+    Gets the input scripts for the current data set.
+
+    Only uniquely named tables will be included in the output.
+#&gt;
+$inputScripts = [Ordered]@{}
+foreach ($table in $this.Tables) {    
+    if (-not $table.TableName) {
+        continue
+    }
+    $inputScripts[$table.TableName] = $table.InputScript
+}
+return $inputScripts
+                    </GetScriptBlock>
+      </ScriptProperty>
       <ScriptProperty>
         <Name>TableName</Name>
         <GetScriptBlock>
