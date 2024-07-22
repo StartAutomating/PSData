@@ -917,6 +917,12 @@ param(
 $parameterBlock
 )
 
+begin {
+    `$rowsAdded = [long]0
+    `$ProgressId = Get-Random
+    `$barberPollProgress = 0
+}
+
 process {$({
     $myCommandMetadata = [Management.Automation.CommandMetadata]$MyInvocation.MyCommand
     if ($myInvocation.MyCommand.ScriptBlock.ThisIs) {
@@ -928,6 +934,7 @@ process {$({
     if (-not $inputObjects) {
         $inputObjects = @([PSCustomObject]([Ordered]@{} + $PSBoundParameters))
     }
+    $progressInterval = $this.ProgressInterval
 
     foreach ($inObject in $inputObjects) {
         $newRow   = if ($local:this -is [Data.DataTable]) {
@@ -940,16 +947,25 @@ process {$({
                         $inObject.$myParameterName -as $newRow.Table.Columns[$myParameterName].DataType
                     } else {
                         [DBNull]::Value
-                    }
-                
+                    }                
             }
         }
         if ($newRow) {
             $null = $newRow.Table.Rows.Add($newRow)
+            if ($progressInterval -and -not ($rowsAdded % $progressInterval)) {
+                $barberPollProgress += 5
+                if ($barberPollProgress -gt 100) { $barberPollProgress = 0 }
+                Write-Progress -Id $ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -PercentComplete $barberPollProgress
+            }
+            $rowsAdded++
         }
         $inObject
     }
 })
+}
+
+end {
+    Write-Progress -Id `$ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -Completed
 }
 "@))
 $newScriptBlock.psobject.properties.add([psnoteproperty]::new('ThisIs', $this), $true)
@@ -997,6 +1013,42 @@ if (-not $this.Columns.Count) { return }
 $columnNames = @($this.Columns.ColumnName)
 $this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json -Compress -Depth $this.SerializationDepth } }
                     </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>ProgressInterval</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the progress interval.
+.DESCRIPTION
+    Gets the progress interval. for a DataTable.
+
+    This is the number of items that should be processed before a progress event is raised.
+.NOTES
+    By default, this is 256.
+#&gt;
+if (-not $this) { return }
+if (-not $this.'.ProgressInterval') {
+    $this.psobject.properties.add([psnoteproperty]::new('.ProgressInterval',256), $true)
+}
+return $this.'.ProgressInterval'
+                    </GetScriptBlock>
+        <SetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Sets the progress interval.
+.DESCRIPTION
+    Sets the progress interval for a DataTable.
+
+    This is the number of items that should be processed before a progress event is raised.
+.NOTES
+    By default, this is 256.
+#&gt;
+param([int]$ProgressInterval = 256)
+if (-not $this) { return }
+$this.psobject.properties.add([psnoteproperty]::new('.ProgressInterval',$ProgressInterval), $true)
+return $this.'.ProgressInterval'
+                    </SetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
         <Name>RowCount</Name>
@@ -1368,6 +1420,12 @@ param(
 $parameterBlock
 )
 
+begin {
+    `$rowsAdded = [long]0
+    `$ProgressId = Get-Random
+    `$barberPollProgress = 0
+}
+
 process {$({
     $myCommandMetadata = [Management.Automation.CommandMetadata]$MyInvocation.MyCommand
     if ($myInvocation.MyCommand.ScriptBlock.ThisIs) {
@@ -1379,6 +1437,7 @@ process {$({
     if (-not $inputObjects) {
         $inputObjects = @([PSCustomObject]([Ordered]@{} + $PSBoundParameters))
     }
+    $progressInterval = $this.ProgressInterval
 
     foreach ($inObject in $inputObjects) {
         $newRow   = if ($local:this -is [Data.DataTable]) {
@@ -1391,16 +1450,25 @@ process {$({
                         $inObject.$myParameterName -as $newRow.Table.Columns[$myParameterName].DataType
                     } else {
                         [DBNull]::Value
-                    }
-                
+                    }                
             }
         }
         if ($newRow) {
             $null = $newRow.Table.Rows.Add($newRow)
+            if ($progressInterval -and -not ($rowsAdded % $progressInterval)) {
+                $barberPollProgress += 5
+                if ($barberPollProgress -gt 100) { $barberPollProgress = 0 }
+                Write-Progress -Id $ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -PercentComplete $barberPollProgress
+            }
+            $rowsAdded++
         }
         $inObject
     }
 })
+}
+
+end {
+    Write-Progress -Id `$ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -Completed
 }
 "@))
 $newScriptBlock.psobject.properties.add([psnoteproperty]::new('ThisIs', $this), $true)
@@ -1448,6 +1516,42 @@ if (-not $this.Columns.Count) { return }
 $columnNames = @($this.Columns.ColumnName)
 $this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json -Compress -Depth $this.SerializationDepth } }
                     </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>ProgressInterval</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the progress interval.
+.DESCRIPTION
+    Gets the progress interval. for a DataTable.
+
+    This is the number of items that should be processed before a progress event is raised.
+.NOTES
+    By default, this is 256.
+#&gt;
+if (-not $this) { return }
+if (-not $this.'.ProgressInterval') {
+    $this.psobject.properties.add([psnoteproperty]::new('.ProgressInterval',256), $true)
+}
+return $this.'.ProgressInterval'
+                    </GetScriptBlock>
+        <SetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Sets the progress interval.
+.DESCRIPTION
+    Sets the progress interval for a DataTable.
+
+    This is the number of items that should be processed before a progress event is raised.
+.NOTES
+    By default, this is 256.
+#&gt;
+param([int]$ProgressInterval = 256)
+if (-not $this) { return }
+$this.psobject.properties.add([psnoteproperty]::new('.ProgressInterval',$ProgressInterval), $true)
+return $this.'.ProgressInterval'
+                    </SetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
         <Name>RowCount</Name>
