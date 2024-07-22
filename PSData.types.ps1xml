@@ -1019,6 +1019,44 @@ return ($jsonSchema | ConvertTo-Json -Depth 10)
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
+        <Name>SerializationDepth</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the serialization depth
+.DESCRIPTION
+    Gets the serialization depth for a DataTable.
+
+    This is the -Depth parameter passed to any serializer that is used to serialize the DataTable.
+.NOTES
+    By default, this is the `$FormatEnumerationLimit + 1`.
+#&gt;
+if (-not $this) { return }
+if (-not $this.'.SerializationDepth') {
+    $this.psobject.properties.add([psnoteproperty]::new('.SerializationDepth',($FormatEnumerationLimit + 1)), $true)
+}
+return $this.'.SerializationDepth'
+                    </GetScriptBlock>
+        <SetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Sets the serialization depth
+.DESCRIPTION
+    Sets the serialization depth for a DataTable.
+
+    This is the -Depth parameter passed to any serializer that is used to serialize the DataTable.
+.NOTES
+    By default, this is `$FormatEnumerationLimit + 1`.
+#&gt;
+param([int]$Depth)
+
+if (-not $this) { return }
+
+$this.psobject.properties.add([psnoteproperty]::new('.SerializationDepth',$Depth), $true)
+return $this.'.SerializationDepth'
+                    </SetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
         <Name>Subscriber</Name>
         <GetScriptBlock>
                         param()
@@ -1408,6 +1446,44 @@ foreach ($column in $this.Columns) {
 }
 return ($jsonSchema | ConvertTo-Json -Depth 10)
                     </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>SerializationDepth</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the serialization depth
+.DESCRIPTION
+    Gets the serialization depth for a DataTable.
+
+    This is the -Depth parameter passed to any serializer that is used to serialize the DataTable.
+.NOTES
+    By default, this is the `$FormatEnumerationLimit + 1`.
+#&gt;
+if (-not $this) { return }
+if (-not $this.'.SerializationDepth') {
+    $this.psobject.properties.add([psnoteproperty]::new('.SerializationDepth',($FormatEnumerationLimit + 1)), $true)
+}
+return $this.'.SerializationDepth'
+                    </GetScriptBlock>
+        <SetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Sets the serialization depth
+.DESCRIPTION
+    Sets the serialization depth for a DataTable.
+
+    This is the -Depth parameter passed to any serializer that is used to serialize the DataTable.
+.NOTES
+    By default, this is `$FormatEnumerationLimit + 1`.
+#&gt;
+param([int]$Depth)
+
+if (-not $this) { return }
+
+$this.psobject.properties.add([psnoteproperty]::new('.SerializationDepth',$Depth), $true)
+return $this.'.SerializationDepth'
+                    </SetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
         <Name>Subscriber</Name>
