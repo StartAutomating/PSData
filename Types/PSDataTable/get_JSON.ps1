@@ -3,6 +3,8 @@
     Gets a data table as JSON
 .DESCRIPTION
     Gets a JSON representation of a data table
+.NOTES
+    The serialization depth can be controlled by setting `$this.SerializationDepth`.
 #>
 param()
 if ($this -isnot [Data.DataTable]) { return }
