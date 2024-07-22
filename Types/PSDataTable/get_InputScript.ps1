@@ -47,6 +47,12 @@ param(
 $parameterBlock
 )
 
+begin {
+    `$rowsAdded = [long]0
+    `$ProgressId = Get-Random
+    `$barberPollProgress = 0
+}
+
 process {$({
     $myCommandMetadata = [Management.Automation.CommandMetadata]$MyInvocation.MyCommand
     if ($myInvocation.MyCommand.ScriptBlock.ThisIs) {
@@ -58,6 +64,7 @@ process {$({
     if (-not $inputObjects) {
         $inputObjects = @([PSCustomObject]([Ordered]@{} + $PSBoundParameters))
     }
+    $progressInterval = $this.ProgressInterval
 
     foreach ($inObject in $inputObjects) {
         $newRow   = if ($local:this -is [Data.DataTable]) {
@@ -70,16 +77,25 @@ process {$({
                         $inObject.$myParameterName -as $newRow.Table.Columns[$myParameterName].DataType
                     } else {
                         [DBNull]::Value
-                    }
-                
+                    }                
             }
         }
         if ($newRow) {
             $null = $newRow.Table.Rows.Add($newRow)
+            if ($progressInterval -and -not ($rowsAdded % $progressInterval)) {
+                $barberPollProgress += 5
+                if ($barberPollProgress -gt 100) { $barberPollProgress = 0 }
+                Write-Progress -Id $ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -PercentComplete $barberPollProgress
+            }
+            $rowsAdded++
         }
         $inObject
     }
 })
+}
+
+end {
+    Write-Progress -Id `$ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -Completed
 }
 "@))
 $newScriptBlock.psobject.properties.add([psnoteproperty]::new('ThisIs', $this), $true)
