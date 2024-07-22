@@ -65,7 +65,13 @@ process {$({
         }
         foreach ($myParameterName in @($myCommandMetadata.Parameters.Keys)) {         
             if ($newRow.Table -and $newRow.Table.Columns[$myParameterName]) {
-                $newRow[$myParameterName] = $inObject.$myParameterName -as $newRow.Table.Columns[$myParameterName].DataType
+                $newRow[$myParameterName] = 
+                    if ($null -ne $inObject.$myParameterName) {
+                        $inObject.$myParameterName -as $newRow.Table.Columns[$myParameterName].DataType
+                    } else {
+                        [DBNull]::Value
+                    }
+                
             }
         }
         if ($newRow) {
