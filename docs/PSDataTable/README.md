@@ -10,6 +10,8 @@
 * [get_InputScript](get_InputScript.md)
 * [get_JSON](get_JSON.md)
 * [get_JSONL](get_JSONL.md)
+* [get_ProgressInterval](get_ProgressInterval.md)
+* [set_ProgressInterval](set_ProgressInterval.md)
 * [json](json.md)
 * [get_SerializationDepth](get_SerializationDepth.md)
 * [set_SerializationDepth](set_SerializationDepth.md)
