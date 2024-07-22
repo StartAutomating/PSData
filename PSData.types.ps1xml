@@ -757,11 +757,27 @@ if ($aTable -isnot [Data.DataTable]) {
 
 # Walk over each row in the table.
 :nextRow foreach ($inputRow in $allInputRows) {
+    # If a "row" was really a column, add it to the table.
     if ($inputRow -is [Data.DataColumn]) {
         $null = $aTable.Columns.Add($inputRow)
         continue nextRow
-    }    
+    }
     $newInputRow = $aTable.NewRow()
+    # If it was already a .NET DataRow, add it to the table.
+    if ($inputRow -is [Data.DataRow]) {
+        # Of course, don't forget to add it's columns, first.
+        foreach ($column in $inputRow.Table.Columns) {
+            if (-not ($aTable.Columns.Count -and $aTable.Columns[$column.ColumnName])) {
+                $null = $aTable.Columns.Add($column.ColumnName, $column.DataType)    
+            }
+            $columnAsType = $inputRow[$column.ColumnName] -as $aTable.Columns[$column.ColumnName].DataType
+            if (-not $columnAsType) { $columnAsType = [DBNull]::Value }
+            $newInputRow[$column.ColumnName] = $columnAsType
+        }
+        $null = $aTable.Rows.Add($newInputRow)
+        continue nextRow
+    }
+    
     $inputRowTypeNames = $inputRow.pstypenames
     :nextProperty foreach ($rowProperty in $inputRow.psobject.properties) {
         # Skip static properties from the extended type system
@@ -1186,11 +1202,27 @@ if ($aTable -isnot [Data.DataTable]) {
 
 # Walk over each row in the table.
 :nextRow foreach ($inputRow in $allInputRows) {
+    # If a "row" was really a column, add it to the table.
     if ($inputRow -is [Data.DataColumn]) {
         $null = $aTable.Columns.Add($inputRow)
         continue nextRow
-    }    
+    }
     $newInputRow = $aTable.NewRow()
+    # If it was already a .NET DataRow, add it to the table.
+    if ($inputRow -is [Data.DataRow]) {
+        # Of course, don't forget to add it's columns, first.
+        foreach ($column in $inputRow.Table.Columns) {
+            if (-not ($aTable.Columns.Count -and $aTable.Columns[$column.ColumnName])) {
+                $null = $aTable.Columns.Add($column.ColumnName, $column.DataType)    
+            }
+            $columnAsType = $inputRow[$column.ColumnName] -as $aTable.Columns[$column.ColumnName].DataType
+            if (-not $columnAsType) { $columnAsType = [DBNull]::Value }
+            $newInputRow[$column.ColumnName] = $columnAsType
+        }
+        $null = $aTable.Rows.Add($newInputRow)
+        continue nextRow
+    }
+    
     $inputRowTypeNames = $inputRow.pstypenames
     :nextProperty foreach ($rowProperty in $inputRow.psobject.properties) {
         # Skip static properties from the extended type system
