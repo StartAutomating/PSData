@@ -968,6 +968,8 @@ return $newScriptBlock
     Gets a data table as JSON
 .DESCRIPTION
     Gets a JSON representation of a data table
+.NOTES
+    The serialization depth can be controlled by setting `$this.SerializationDepth`.
 #&gt;
 param()
 if ($this -isnot [Data.DataTable]) { return }
@@ -983,7 +985,11 @@ $this | Select-Object -Property $columnNames | ConvertTo-Json -Depth $this.Seria
 .SYNOPSIS
     Gets a datatable as JSONL
 .DESCRIPTION
-    Gets a JSONL representation of a data table
+    Gets a JSONL representation of a data table.
+
+    JSONL is a format where each line is a JSON object.
+.NOTES
+    The serialization depth can be controlled by setting `$this.SerializationDepth`.
 #&gt;
 param()
 if ($this -isnot [Data.DataTable]) { return }
@@ -1413,6 +1419,8 @@ return $newScriptBlock
     Gets a data table as JSON
 .DESCRIPTION
     Gets a JSON representation of a data table
+.NOTES
+    The serialization depth can be controlled by setting `$this.SerializationDepth`.
 #&gt;
 param()
 if ($this -isnot [Data.DataTable]) { return }
@@ -1428,7 +1436,11 @@ $this | Select-Object -Property $columnNames | ConvertTo-Json -Depth $this.Seria
 .SYNOPSIS
     Gets a datatable as JSONL
 .DESCRIPTION
-    Gets a JSONL representation of a data table
+    Gets a JSONL representation of a data table.
+
+    JSONL is a format where each line is a JSON object.
+.NOTES
+    The serialization depth can be controlled by setting `$this.SerializationDepth`.
 #&gt;
 param()
 if ($this -isnot [Data.DataTable]) { return }
