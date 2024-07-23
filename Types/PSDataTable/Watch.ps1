@@ -1,6 +1,8 @@
 <#
 .SYNOPSIS
     Watches a table for changes.
+.DESCRIPTION
+    Watches data tables for changes, and runs one or more script blocks when the event is triggered.
 #>
 param(
 # One or more events to watch.
