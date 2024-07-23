@@ -8,6 +8,8 @@ Watches a table for changes.
 
 ### Description
 
+Watches data tables for changes, and runs one or more script blocks when the event is triggered.
+
 ---
 
 ### Parameters
