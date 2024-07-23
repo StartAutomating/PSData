@@ -994,6 +994,8 @@ return , $newDataTable
                         &lt;#
 .SYNOPSIS
     Watches a table for changes.
+.DESCRIPTION
+    Watches data tables for changes, and runs one or more script blocks when the event is triggered.
 #&gt;
 param(
 # One or more events to watch.
@@ -1624,6 +1626,8 @@ return , $newDataTable
                         &lt;#
 .SYNOPSIS
     Watches a table for changes.
+.DESCRIPTION
+    Watches data tables for changes, and runs one or more script blocks when the event is triggered.
 #&gt;
 param(
 # One or more events to watch.
