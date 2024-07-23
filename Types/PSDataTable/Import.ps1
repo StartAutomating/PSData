@@ -12,10 +12,7 @@ param()
 $arguments = @($args)
 $pipedInput = @($input)
 
-$allInputRows = @(
-    $arguments | . { process { $_} }
-    $pipedInput | . { process { $_} }
-)
+$allInputRows = @() + $arguments + $pipedInput
 
 # If this was not a table
 $aTable = $this
@@ -24,8 +21,10 @@ if ($aTable -isnot [Data.DataTable]) {
     $aTable = [Data.DataTable]::new()
 }
 
-# Walk over each row in the table.
-:nextRow foreach ($inputRow in $allInputRows) {
+# Walk over each unrolled row in the table.
+:nextRow foreach ($inputRow in $allInputRows | . { process { $_}}) {
+    # Skip empty values.
+    if ($null -eq $inputRow -or [DBNull]::Value -eq $inputRow) { continue nextRow }
     # If a "row" was really a column, add it to the table.
     if ($inputRow -is [Data.DataColumn]) {
         $null = $aTable.Columns.Add($inputRow)
