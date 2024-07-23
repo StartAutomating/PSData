@@ -5,5 +5,6 @@
 
 
 * [Get](Get.md)
+* [New](New.md)
 * [get_InputScript](get_InputScript.md)
 * [get_TableName](get_TableName.md)
