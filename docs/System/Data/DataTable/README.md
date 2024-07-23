@@ -6,6 +6,7 @@
 
 * [Import](Import.md)
 * [New](New.md)
+* [Watch](Watch.md)
 * [get_CLIXML](get_CLIXML.md)
 * [get_CSV](get_CSV.md)
 * [get_InputScript](get_InputScript.md)
