@@ -89,7 +89,7 @@ process {$({
                 while ($multiple -gt 50) { $multiple *= .75 }
                 $barberPollProgress = 50 + $multiple
                 if ($barberPollProgress -ge 100) { $barberPollProgress = 99 }
-                Write-Progress -Id $ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -PercentComplete $barberPollProgress
+                Write-Progress -Id $ProgressId -Activity "Adding rows to Table: '$($this.TableName)'" -Status "$rowsAdded rows" -PercentComplete $barberPollProgress
             }
             $null = $newRow.Table.Rows.Add($newRow)
             
@@ -103,7 +103,7 @@ process {$({
 
 end {
     if (`$rowsAdded -gt `$progressInterval) {
-        Write-Progress -Id `$ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -Completed
+        Write-Progress -Id `$ProgressId -Activity "Adding rows to Table: '`$(`$this.TableName)'" -Status "`$rowsAdded rows" -Completed
     }
 }
 "@))
