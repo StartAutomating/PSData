@@ -94,13 +94,16 @@ process {
             } 
             elseif ($ColumnType -eq [IO.FileInfo]) {
                 [string]                
-            }
+            }            
             else {
                 $ColumnType
             }            
         } elseif ($ColumnType -in 'number','double','single','float') {
             [double]
-        } else {
+        } elseif ($columnType -match '^\[' -and ($ColumnType -replace '^\[' -replace '\]$') -as [type]) {
+            ($ColumnType -replace '^\[' -replace '\]$') -as [type]
+        }                
+        else {
             [object]
         }
 
@@ -121,9 +124,6 @@ process {
 
     $dataColumn = [Data.DataColumn]::new.Invoke($constructorArguments)
     if (-not $dataColumn) { return }
-
-
-    
     foreach ($myParam in $myParams.GetEnumerator()) {
         $dataPropertyInfo = [Data.DataColumn].GetProperty($myParam.Key)
         if ($dataPropertyInfo.CanWrite) {
