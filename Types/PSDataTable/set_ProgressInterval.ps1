@@ -6,9 +6,9 @@
 
     This is the number of items that should be processed before a progress event is raised.
 .NOTES
-    By default, this is 256.
+    By default, this is 8kb.
 #>
-param([int]$ProgressInterval = 256)
+param([int]$ProgressInterval = 8kb)
 if (-not $this) { return }
 $this.psobject.properties.add([psnoteproperty]::new('.ProgressInterval',$ProgressInterval), $true)
 return $this.'.ProgressInterval'

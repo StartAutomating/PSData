@@ -51,20 +51,22 @@ begin {
     `$rowsAdded = [long]0
     `$ProgressId = Get-Random
     `$barberPollProgress = 0
+    if (`$myInvocation.MyCommand.ScriptBlock.ThisIs) {
+        `$local:this = `$myInvocation.MyCommand.ScriptBlock.ThisIs
+    }
+    `$progressInterval = if (`$this.ProgressInterval -ge 0) { `$this.ProgressInterval } else { 4kb }
+    `$NextProgressInterval = `$ProgressInterval
 }
 
 process {$({
     $myCommandMetadata = [Management.Automation.CommandMetadata]$MyInvocation.MyCommand
-    if ($myInvocation.MyCommand.ScriptBlock.ThisIs) {
-        $local:this = $myInvocation.MyCommand.ScriptBlock.ThisIs
-    }
+    
         
     $inputObjects = @($input)
     if (-not $inputObjects -and $inputObject.Length) { $inputObjects = $inputObject }
     if (-not $inputObjects) {
         $inputObjects = @([PSCustomObject]([Ordered]@{} + $PSBoundParameters))
-    }
-    $progressInterval = $this.ProgressInterval
+    }    
 
     foreach ($inObject in $inputObjects) {
         $newRow   = if ($local:this -is [Data.DataTable]) {
@@ -81,12 +83,17 @@ process {$({
             }
         }
         if ($newRow) {
-            $null = $newRow.Table.Rows.Add($newRow)
-            if ($progressInterval -and -not ($rowsAdded % $progressInterval)) {
-                $barberPollProgress += 5
-                if ($barberPollProgress -gt 100) { $barberPollProgress = 0 }
+            if ($progressInterval -and ($rowsAdded -ge $NextProgressInterval)) {
+                $NextProgressInterval += $progressInterval
+                $multiple = ($NextProgressInterval / $progressInterval)
+                while ($multiple -gt 50) { $multiple *= .75 }
+                $barberPollProgress = 50 + $multiple
+                if ($barberPollProgress -ge 100) { $barberPollProgress = 99 }
                 Write-Progress -Id $ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -PercentComplete $barberPollProgress
             }
+            $null = $newRow.Table.Rows.Add($newRow)
+            
+            
             $rowsAdded++
         }
         $inObject
@@ -95,7 +102,9 @@ process {$({
 }
 
 end {
-    Write-Progress -Id `$ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -Completed
+    if (`$rowsAdded -gt `$progressInterval) {
+        Write-Progress -Id `$ProgressId -Activity "Adding rows $($this.TableName)" -Status "$rowsAdded rows" -Completed
+    }
 }
 "@))
 $newScriptBlock.psobject.properties.add([psnoteproperty]::new('ThisIs', $this), $true)
