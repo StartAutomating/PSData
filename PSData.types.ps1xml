@@ -1135,6 +1135,31 @@ foreach ($dataRow in $this.Rows) {
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.XML</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as XML
+.DESCRIPTION
+    Gets a DataTable as XML, using the `WriteXml` method.
+.NOTES
+    This property will only return the XML representation of simple DataTables, whose columns are all of simple types.
+    
+    If this errors out, because it is a property it will simply return nothing.
+
+    To examine the errors, look at `$Error`.
+#&gt;
+param()
+$stringWriter = [IO.StringWriter]::new()
+$this.WriteXml($stringWriter)
+$xml = $stringWriter.ToString()
+$stringWriter.Close()
+$stringWriter.Dispose()
+return $xml
+
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>Unregister</Name>
         <Script>
                         &lt;#
@@ -1449,31 +1474,6 @@ if (-not $this) { return }
         $eventSubscriber
     }
 })
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>XML</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a DataTable as XML
-.DESCRIPTION
-    Gets a DataTable as XML, using the `WriteXml` method.
-.NOTES
-    This property will only return the XML representation of simple DataTables, whose columns are all of simple types.
-    
-    If this errors out, because it is a property it will simply return nothing.
-
-    To examine the errors, look at `$Error`.
-#&gt;
-param()
-$stringWriter = [IO.StringWriter]::new()
-$this.WriteXml($stringWriter)
-$xml = $stringWriter.ToString()
-$stringWriter.Close()
-$stringWriter.Dispose()
-return $xml
-
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
@@ -1823,6 +1823,31 @@ foreach ($dataRow in $this.Rows) {
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.XML</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as XML
+.DESCRIPTION
+    Gets a DataTable as XML, using the `WriteXml` method.
+.NOTES
+    This property will only return the XML representation of simple DataTables, whose columns are all of simple types.
+    
+    If this errors out, because it is a property it will simply return nothing.
+
+    To examine the errors, look at `$Error`.
+#&gt;
+param()
+$stringWriter = [IO.StringWriter]::new()
+$this.WriteXml($stringWriter)
+$xml = $stringWriter.ToString()
+$stringWriter.Close()
+$stringWriter.Dispose()
+return $xml
+
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>Unregister</Name>
         <Script>
                         &lt;#
@@ -2137,31 +2162,6 @@ if (-not $this) { return }
         $eventSubscriber
     }
 })
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>XML</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a DataTable as XML
-.DESCRIPTION
-    Gets a DataTable as XML, using the `WriteXml` method.
-.NOTES
-    This property will only return the XML representation of simple DataTables, whose columns are all of simple types.
-    
-    If this errors out, because it is a property it will simply return nothing.
-
-    To examine the errors, look at `$Error`.
-#&gt;
-param()
-$stringWriter = [IO.StringWriter]::new()
-$this.WriteXml($stringWriter)
-$xml = $stringWriter.ToString()
-$stringWriter.Close()
-$stringWriter.Dispose()
-return $xml
-
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
