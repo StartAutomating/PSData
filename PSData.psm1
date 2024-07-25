@@ -31,10 +31,18 @@ $verbs.Columns.AddRange(@(
     [Data.DataColumn]::new('Group', [string], '', 'Attribute')
     [Data.DataColumn]::new('AliasPrefix', [string], '', 'Attribute')
 ))
-$KnownVerbs = Get-Verb | & $verbs.InputScript | Select-Object -ExpandProperty Verb
+$KnownVerbs = Get-Verb | 
+    & $verbs.InputScript | 
+    Sort-Object @{
+        Expression={$_.Verb.Length}
+    }, @{
+        Expression={ $_.Verb};Descending=$false
+    } -Descending | 
+    Select-Object -ExpandProperty Verb
+
 $verbs.AcceptChanges()
 $DoNotExportTypes = @('^System\.', 'Collection$')
-$DoNotExportMembers = @('\.format','^Import\.')
+$DoNotExportMembers = @('\.format','^Import\.', '^To\.','^From\.')
 
 # Set a script variable of this, set to the module
 # (so all scripts in this scope default to the correct `$this`)
@@ -105,6 +113,8 @@ foreach ($myTypeData in $myScriptTypeData) {
         $null = $myTypesTable.Rows.Add($newTypeRow)
     }    
 }
+$myTypesTable.AcceptChanges()
+$startsWithKnownVerb = [regex]::new("^(?>$(@($KnownVerbs -join '|')))", 'IgnoreCase', '00:00:00.01')
 
 $myScriptTypeCommands = foreach ($myScriptMember in $myTypesTable.Select("Export = 'True'")) {
     $myScriptType = $myScriptMember.TypeName
@@ -112,16 +122,17 @@ $myScriptTypeCommands = foreach ($myScriptMember in $myTypesTable.Select("Export
     $myMember = $myScriptMember.Member
     if ($myMember -is [Management.Automation.Runspaces.ScriptMethodData]) {
         $myFunctionName = 
-            if ($myMemberName -in $KnownVerbs) {
-                "$($myMemberName)-$($myScriptType)" -replace '[\._]',''
-            } else {
+            if ($myMemberName -match $startsWithKnownVerb) {
+                "$($matches.0)-$($myScriptType)$($myMemberName -replace $startsWithKnownVerb)" -replace '[\._]',''
+            }            
+            else {
                 "$($myScriptType).$($myMemberName)"
             }
         # Declare My Function
         "function $myFunctionName {"
         "$($myMember.Script)"
         "}"
-        if ($myMemberName -in $KnownVerbs) {
+        if ($myMemberName -in $KnownVerbs -or $myMemberName -in 'To','From') {
             # Alias it if it's a known verb, so both verb and noun form are available.
             "Set-Alias -Name '$($myScriptType).$($myMemberName)' -Value '$myFunctionName'"            
         }
