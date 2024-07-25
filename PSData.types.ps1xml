@@ -1007,6 +1007,34 @@ $columnNames = @($this.Columns.ColumnName)
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.CSV</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as CSV
+.DESCRIPTION
+    Gets a CSV representation of a DataTable.
+#&gt;
+param()
+
+
+function toCsv {
+    param([string[]]$columns)
+    $columns -replace # escape quotes,
+        '"','""' -replace # quote items,
+        '(?&gt;^|$)','"' -join ',' # join with commas.
+}
+
+$myColumns = @($this.Columns.ColumnName)
+toCsv $myColumns
+
+foreach ($dataRow in $this.Rows) {
+    toCsv $dataRow[$myColumns]
+}
+
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>To.JSON</Name>
         <Script>
                         &lt;#
@@ -1208,34 +1236,6 @@ foreach ($dt in $DataTable) {
         <Name>ColumnCount</Name>
         <GetScriptBlock>
                         return $this.Columns.Count
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>CSV</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a DataTable as CSV
-.DESCRIPTION
-    Gets a CSV representation of a DataTable.
-#&gt;
-param()
-
-
-function toCsv {
-    param([string[]]$columns)
-    $columns -replace # escape quotes,
-        '"','""' -replace # quote items,
-        '(?&gt;^|$)','"' -join ',' # join with commas.
-}
-
-$myColumns = @($this.Columns.ColumnName)
-toCsv $myColumns
-
-foreach ($dataRow in $this.Rows) {
-    toCsv $dataRow[$myColumns]
-}
-
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
@@ -1695,6 +1695,34 @@ $columnNames = @($this.Columns.ColumnName)
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.CSV</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as CSV
+.DESCRIPTION
+    Gets a CSV representation of a DataTable.
+#&gt;
+param()
+
+
+function toCsv {
+    param([string[]]$columns)
+    $columns -replace # escape quotes,
+        '"','""' -replace # quote items,
+        '(?&gt;^|$)','"' -join ',' # join with commas.
+}
+
+$myColumns = @($this.Columns.ColumnName)
+toCsv $myColumns
+
+foreach ($dataRow in $this.Rows) {
+    toCsv $dataRow[$myColumns]
+}
+
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>To.JSON</Name>
         <Script>
                         &lt;#
@@ -1896,34 +1924,6 @@ foreach ($dt in $DataTable) {
         <Name>ColumnCount</Name>
         <GetScriptBlock>
                         return $this.Columns.Count
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>CSV</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a DataTable as CSV
-.DESCRIPTION
-    Gets a CSV representation of a DataTable.
-#&gt;
-param()
-
-
-function toCsv {
-    param([string[]]$columns)
-    $columns -replace # escape quotes,
-        '"','""' -replace # quote items,
-        '(?&gt;^|$)','"' -join ',' # join with commas.
-}
-
-$myColumns = @($this.Columns.ColumnName)
-toCsv $myColumns
-
-foreach ($dataRow in $this.Rows) {
-    toCsv $dataRow[$myColumns]
-}
-
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
