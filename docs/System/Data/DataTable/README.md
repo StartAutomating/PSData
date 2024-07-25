@@ -6,11 +6,11 @@
 
 * [Import](Import.md)
 * [New](New.md)
+* [CLIXML](CLIXML.md)
 * [JSON](JSON.md)
 * [JSONL](JSONL.md)
 * [Unregister](Unregister.md)
 * [Watch](Watch.md)
-* [get_CLIXML](get_CLIXML.md)
 * [get_CSV](get_CSV.md)
 * [get_InputScript](get_InputScript.md)
 * [get_ProgressInterval](get_ProgressInterval.md)
