@@ -1045,6 +1045,32 @@ $this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.TSV</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as TSV
+.DESCRIPTION
+    Gets a Tab Separated Value representation of a DataTable.
+
+    This function will return the DataTable as a TSV string.
+#&gt;
+param()
+function toTSV {
+    param([string[]]$columns)
+    $columns -replace # escape quotes,
+        '"','""' -replace # quote items,
+        '(?&gt;^|$)','"' -join "`t" # join with tabs.
+}
+$myColumns = @($this.Columns.ColumnName)
+toTSV $myColumns
+foreach ($dataRow in $this.Rows) {
+    toTSV $dataRow[$myColumns]
+}
+
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>Unregister</Name>
         <Script>
                         &lt;#
@@ -1423,32 +1449,6 @@ if (-not $this) { return }
         $eventSubscriber
     }
 })
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>TSV</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a DataTable as TSV
-.DESCRIPTION
-    Gets a Tab Separated Value representation of a DataTable.
-
-    This function will return the DataTable as a TSV string.
-#&gt;
-param()
-function toTSV {
-    param([string[]]$columns)
-    $columns -replace # escape quotes,
-        '"','""' -replace # quote items,
-        '(?&gt;^|$)','"' -join "`t" # join with tabs.
-}
-$myColumns = @($this.Columns.ColumnName)
-toTSV $myColumns
-foreach ($dataRow in $this.Rows) {
-    toTSV $dataRow[$myColumns]
-}
-
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
@@ -1733,6 +1733,32 @@ $this | Select-Object -Property $columnNames | . {process { $_  | ConvertTo-Json
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.TSV</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a DataTable as TSV
+.DESCRIPTION
+    Gets a Tab Separated Value representation of a DataTable.
+
+    This function will return the DataTable as a TSV string.
+#&gt;
+param()
+function toTSV {
+    param([string[]]$columns)
+    $columns -replace # escape quotes,
+        '"','""' -replace # quote items,
+        '(?&gt;^|$)','"' -join "`t" # join with tabs.
+}
+$myColumns = @($this.Columns.ColumnName)
+toTSV $myColumns
+foreach ($dataRow in $this.Rows) {
+    toTSV $dataRow[$myColumns]
+}
+
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>Unregister</Name>
         <Script>
                         &lt;#
@@ -2111,32 +2137,6 @@ if (-not $this) { return }
         $eventSubscriber
     }
 })
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>TSV</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a DataTable as TSV
-.DESCRIPTION
-    Gets a Tab Separated Value representation of a DataTable.
-
-    This function will return the DataTable as a TSV string.
-#&gt;
-param()
-function toTSV {
-    param([string[]]$columns)
-    $columns -replace # escape quotes,
-        '"','""' -replace # quote items,
-        '(?&gt;^|$)','"' -join "`t" # join with tabs.
-}
-$myColumns = @($this.Columns.ColumnName)
-toTSV $myColumns
-foreach ($dataRow in $this.Rows) {
-    toTSV $dataRow[$myColumns]
-}
-
                     </GetScriptBlock>
       </ScriptProperty>
       <ScriptProperty>
