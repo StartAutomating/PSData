@@ -989,6 +989,24 @@ return , $newDataTable
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.CLIXML</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a data table as Clixml
+.DESCRIPTION
+    Gets a Clixml representation of the rows in a data table.
+#&gt;
+param()
+if ($this -isnot [Data.DataTable]) { return }
+if (-not $this.Columns.Count) { return }
+$columnNames = @($this.Columns.ColumnName)
+[Management.Automation.PSSerializer]::Serialize(
+    @($this | Select-Object -Property $columnNames), $FormatEnumerationLimit
+)
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>To.JSON</Name>
         <Script>
                         &lt;#
@@ -1124,24 +1142,6 @@ foreach ($dt in $DataTable) {
 
                     </Script>
       </ScriptMethod>
-      <ScriptProperty>
-        <Name>CLIXML</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a data table as Clixml
-.DESCRIPTION
-    Gets a Clixml representation of the rows in a data table.
-#&gt;
-param()
-if ($this -isnot [Data.DataTable]) { return }
-if (-not $this.Columns.Count) { return }
-$columnNames = @($this.Columns.ColumnName)
-[Management.Automation.PSSerializer]::Serialize(
-    @($this | Select-Object -Property $columnNames), $FormatEnumerationLimit
-)
-                    </GetScriptBlock>
-      </ScriptProperty>
       <ScriptProperty>
         <Name>ColumnCount</Name>
         <GetScriptBlock>
@@ -1677,6 +1677,24 @@ return , $newDataTable
                     </Script>
       </ScriptMethod>
       <ScriptMethod>
+        <Name>To.CLIXML</Name>
+        <Script>
+                        &lt;#
+.SYNOPSIS
+    Gets a data table as Clixml
+.DESCRIPTION
+    Gets a Clixml representation of the rows in a data table.
+#&gt;
+param()
+if ($this -isnot [Data.DataTable]) { return }
+if (-not $this.Columns.Count) { return }
+$columnNames = @($this.Columns.ColumnName)
+[Management.Automation.PSSerializer]::Serialize(
+    @($this | Select-Object -Property $columnNames), $FormatEnumerationLimit
+)
+                    </Script>
+      </ScriptMethod>
+      <ScriptMethod>
         <Name>To.JSON</Name>
         <Script>
                         &lt;#
@@ -1812,24 +1830,6 @@ foreach ($dt in $DataTable) {
 
                     </Script>
       </ScriptMethod>
-      <ScriptProperty>
-        <Name>CLIXML</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets a data table as Clixml
-.DESCRIPTION
-    Gets a Clixml representation of the rows in a data table.
-#&gt;
-param()
-if ($this -isnot [Data.DataTable]) { return }
-if (-not $this.Columns.Count) { return }
-$columnNames = @($this.Columns.ColumnName)
-[Management.Automation.PSSerializer]::Serialize(
-    @($this | Select-Object -Property $columnNames), $FormatEnumerationLimit
-)
-                    </GetScriptBlock>
-      </ScriptProperty>
       <ScriptProperty>
         <Name>ColumnCount</Name>
         <GetScriptBlock>
