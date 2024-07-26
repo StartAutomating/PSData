@@ -31,9 +31,9 @@ function New-PSDataColumn {
 
     # The mapping type of the column (either an attribute or an element).
     [Parameter(ValueFromPipelineByPropertyName)]
-    [Alias('MappingType')]
+    [Alias('ColumnMapping')]
     [Data.MappingType]
-    $ColumnMapping,
+    $MapppingType,
 
     # If set, the column will auto-increment.
     [Parameter(ValueFromPipelineByPropertyName)]
@@ -117,10 +117,10 @@ function New-PSDataColumn {
 
             if ($Expression) {
                 $Expression
-                if ($ColumnMapping) { $ColumnMapping }
+                if ($MapppingType) { $MapppingType }
             }
             else {
-                if ($ColumnMapping) {"", $ColumnMapping}
+                if ($MapppingType) {"", $MapppingType}
             }        
         )
 
