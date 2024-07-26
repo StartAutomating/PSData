@@ -38,7 +38,7 @@ The expression used to create the column.
 |----------|--------|--------|---------------------|-------|
 |`[String]`|false   |3       |true (ByPropertyName)|Expr   |
 
-#### **ColumnMapping**
+#### **MapppingType**
 The mapping type of the column (either an attribute or an element).
 Valid Values:
 
@@ -47,9 +47,9 @@ Valid Values:
 * SimpleContent
 * Hidden
 
-|Type           |Required|Position|PipelineInput        |Aliases    |
-|---------------|--------|--------|---------------------|-----------|
-|`[MappingType]`|false   |4       |true (ByPropertyName)|MappingType|
+|Type           |Required|Position|PipelineInput        |Aliases      |
+|---------------|--------|--------|---------------------|-------------|
+|`[MappingType]`|false   |4       |true (ByPropertyName)|ColumnMapping|
 
 #### **AutoIncrement**
 If set, the column will auto-increment.
@@ -125,5 +125,5 @@ If set, the column is read-only.
 
 ### Syntax
 ```PowerShell
-New-PSDataColumn [[-ColumnName] <String>] [[-ColumnType] <PSObject>] [[-Expression] <String>] [[-ColumnMapping] {Element | Attribute | SimpleContent | Hidden}] [-AutoIncrement] [[-AutoIncrementSeed] <Int64>] [[-AutoIncrementStep] <Int64>] [[-Caption] <String>] [[-DefaultValue] <Object>] [[-MaxLength] <Int32>] [[-Namespace] <String>] [[-Prefix] <String>] [-Unique] [-ReadOnly] [<CommonParameters>]
+New-PSDataColumn [[-ColumnName] <String>] [[-ColumnType] <PSObject>] [[-Expression] <String>] [[-MapppingType] {Element | Attribute | SimpleContent | Hidden}] [-AutoIncrement] [[-AutoIncrementSeed] <Int64>] [[-AutoIncrementStep] <Int64>] [[-Caption] <String>] [[-DefaultValue] <Object>] [[-MaxLength] <Int32>] [[-Namespace] <String>] [[-Prefix] <String>] [-Unique] [-ReadOnly] [<CommonParameters>]
 ```
