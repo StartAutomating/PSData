@@ -55,26 +55,6 @@ $this.Table.TableName
     <Name>PSDataConnection</Name>
     <Members>
       <ScriptMethod>
-        <Name>Get</Name>
-        <Script>
-                        &lt;#
-.SYNOPSIS
-    Gets data connections
-.DESCRIPTION
-    Gets loaded data connections.
-.NOTES
-    Will only get connections that have been saved to a variable, and are a `[Data.Common.DbConnection]`.
-#&gt;
-param()
-
-foreach ($variable in @(Get-Variable)) {
-    if ($variable.Value -is [Data.Common.DbConnection]) {
-        $variable.Value
-    }
-}
-                    </Script>
-      </ScriptMethod>
-      <ScriptMethod>
         <Name>New</Name>
         <Script>
                         &lt;#
@@ -147,26 +127,6 @@ $connectionType::new($connectionString)
   <Type>
     <Name>System.Data.Common.DbConnection</Name>
     <Members>
-      <ScriptMethod>
-        <Name>Get</Name>
-        <Script>
-                        &lt;#
-.SYNOPSIS
-    Gets data connections
-.DESCRIPTION
-    Gets loaded data connections.
-.NOTES
-    Will only get connections that have been saved to a variable, and are a `[Data.Common.DbConnection]`.
-#&gt;
-param()
-
-foreach ($variable in @(Get-Variable)) {
-    if ($variable.Value -is [Data.Common.DbConnection]) {
-        $variable.Value
-    }
-}
-                    </Script>
-      </ScriptMethod>
       <ScriptMethod>
         <Name>New</Name>
         <Script>
