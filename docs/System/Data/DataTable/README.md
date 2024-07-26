@@ -13,6 +13,7 @@
 * [JsonSchema](JsonSchema.md)
 * [TSV](TSV.md)
 * [XML](XML.md)
+* [XSD](XSD.md)
 * [Unregister](Unregister.md)
 * [Watch](Watch.md)
 * [get_InputScript](get_InputScript.md)
@@ -20,4 +21,3 @@
 * [set_ProgressInterval](set_ProgressInterval.md)
 * [get_SerializationDepth](get_SerializationDepth.md)
 * [set_SerializationDepth](set_SerializationDepth.md)
-* [get_XSD](get_XSD.md)
