@@ -27,9 +27,9 @@ New-PSDataSet -DataSetName 'MyDataSet'
 #### **DataSetName**
 The name of the data set.
 
-|Type      |Required|Position|PipelineInput|
-|----------|--------|--------|-------------|
-|`[String]`|false   |1       |false        |
+|Type      |Required|Position|PipelineInput        |
+|----------|--------|--------|---------------------|
+|`[String]`|false   |1       |true (ByPropertyName)|
 
 #### **DataSetNamespace**
 The namespace of the data set.
