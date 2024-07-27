@@ -40,18 +40,33 @@ $DoNotExportMembers = @('\.format','^Import\.', '^To\.','^From\.')
 $script:this = $myModule
 
 $myDataSet = [Data.DataSet]::new($myModule.Name)
-$myDataSet.Tables.Add([Data.DataTable]::new('Files'))
+$myDataSet.Tables.Add([Data.DataTable]::new('Directory'))
+$myDirectoryTable = $myDataSet.Tables['Directory']
+$myDirectoryTable.Columns.AddRange(@(
+    [Data.DataColumn]::new('FullName', [string], '', 'Attribute')
+    [Data.DataColumn]::new('Name', [string], '', 'Attribute')
+))
+$myDirectoryTable.PrimaryKey = $myDirectoryTable.Columns['Fullname']
+$myDataSet.Tables.Add([Data.DataTable]::new('File'))
 $myDataSet.Tables.Add($verbs)
-$myFilesTable = $myDataSet.Tables['Files']
+$myFilesTable = $myDataSet.Tables['File']
 $myFilesTable.Columns.AddRange(@(
-    [Data.DataColumn]::new('Fullname', [string], '', 'Attribute'),
+    [Data.DataColumn]::new('Directory', [string], '', 'Hidden'),
+    [Data.DataColumn]::new('Fullname', [string], '', 'Hidden'),
     [Data.DataColumn]::new('Name', [string], '', 'Attribute'),
     [Data.DataColumn]::new('Extension', [string], '', 'Attribute'),
     [Data.DataColumn]::new('CreationTime', [datetime], '', 'Attribute'),
     [Data.DataColumn]::new('LastWriteTime', [datetime], '', 'Attribute'),
     [Data.DataColumn]::new('Length', [long], '', 'Attribute')
 ))
-$myFilesTable.PrimaryKey = $myFilesTable.Columns['Fullname']
+$myDirectoryRelationship = $myDataSet.Relations.Add('File', $myDataSet.Tables['Directory'].Columns['Fullname'], $myFilesTable.Columns['Directory'])
+$myDirectoryRelationship.Nested = $true
+$myDirectoryRelationship.ParentKeyConstraint[0].ConstraintName = 'Directory'
+$myFilesTable.PrimaryKey = $myFilesTable.Columns['Directory'], $myFilesTable.Columns['Name']
+$myFolders = @(
+    Get-Item -Path $PSScriptRoot
+    Get-ChildItem -Directory -Recurse -Path $PSScriptRoot
+)| & $myDirectoryTable.InputScript
 $myFiles = Get-ChildItem -File -Recurse -Path $PSScriptRoot | & $myFilesTable.InputScript
 $myFilesTable.AcceptChanges()
 $myTypesFiles = $myFilesTable.Select("Fullname LIKE '*.types.ps1xml'").Fullname -as [IO.FileInfo[]]
