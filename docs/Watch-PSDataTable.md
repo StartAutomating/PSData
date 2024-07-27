@@ -34,20 +34,20 @@ Valid Values:
 #### **EventHandler**
 One or more script blocks to run when the event is triggered.
 
-|Type             |Required|Position|PipelineInput|
-|-----------------|--------|--------|-------------|
-|`[ScriptBlock[]]`|false   |2       |false        |
+|Type             |Required|Position|PipelineInput        |
+|-----------------|--------|--------|---------------------|
+|`[ScriptBlock[]]`|false   |2       |true (ByPropertyName)|
 
 #### **DataTable**
 The table to watch.  If not provided, the current object will be used.
 
-|Type           |Required|Position|PipelineInput|Aliases   |
-|---------------|--------|--------|-------------|----------|
-|`[DataTable[]]`|false   |3       |false        |DataTables|
+|Type         |Required|Position|PipelineInput        |Aliases   |
+|-------------|--------|--------|---------------------|----------|
+|`[DataTable]`|false   |3       |true (ByPropertyName)|DataTables|
 
 ---
 
 ### Syntax
 ```PowerShell
-Watch-PSDataTable [[-EventName] <String[]>] [[-EventHandler] <ScriptBlock[]>] [[-DataTable] <DataTable[]>] [<CommonParameters>]
+Watch-PSDataTable [[-EventName] <String[]>] [[-EventHandler] <ScriptBlock[]>] [[-DataTable] <DataTable>] [<CommonParameters>]
 ```
