@@ -15,7 +15,6 @@
 * [XML](XML.md)
 * [XSD](XSD.md)
 * [Unregister](Unregister.md)
-* [Watch](Watch.md)
 * [get_InputScript](get_InputScript.md)
 * [get_ProgressInterval](get_ProgressInterval.md)
 * [set_ProgressInterval](set_ProgressInterval.md)
