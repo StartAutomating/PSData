@@ -39,15 +39,15 @@ One or more script blocks to run when the event is triggered.
 |`[ScriptBlock[]]`|false   |2       |true (ByPropertyName)|
 
 #### **DataTable**
-The table to watch.  If not provided, the current object will be used.
+The datatable to watch.  This is the in-memory database that you want to select data from.
 
-|Type         |Required|Position|PipelineInput        |Aliases   |
-|-------------|--------|--------|---------------------|----------|
-|`[DataTable]`|false   |3       |true (ByPropertyName)|DataTables|
+|Type         |Required|Position|PipelineInput        |Aliases                        |
+|-------------|--------|--------|---------------------|-------------------------------|
+|`[DataTable]`|true    |3       |true (ByPropertyName)|Table<br/>Tables<br/>DataTables|
 
 ---
 
 ### Syntax
 ```PowerShell
-Watch-PSDataTable [[-EventName] <String[]>] [[-EventHandler] <ScriptBlock[]>] [[-DataTable] <DataTable>] [<CommonParameters>]
+Watch-PSDataTable [[-EventName] <String[]>] [[-EventHandler] <ScriptBlock[]>] [-DataTable] <DataTable> [<CommonParameters>]
 ```
