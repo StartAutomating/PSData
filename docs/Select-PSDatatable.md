@@ -30,19 +30,20 @@ Select-DataTable -DataTable $dt -Sort LastWriteTime -SortOrder Descending
 ### Parameters
 #### **DataTable**
 The datatable object.  This is the in-memory database that you want to select data from.
+To search multiple tables, pipe in an object with a DataTable property.
 
-|Type         |Required|Position|PipelineInput        |Aliases         |
-|-------------|--------|--------|---------------------|----------------|
-|`[DataTable]`|true    |named   |true (ByPropertyName)|Table<br/>Tables|
+|Type         |Required|Position|PipelineInput        |Aliases                        |
+|-------------|--------|--------|---------------------|-------------------------------|
+|`[DataTable]`|true    |named   |true (ByPropertyName)|Table<br/>Tables<br/>DataTables|
 
-#### **Expression**
+#### **WhereExpression**
 A string that specifies what rows will be selected.  This is _almost_ the same as the where clause in SQL.
 For a full list of operators, [refer to Microsoft's documentation](https://learn.microsoft.com/en-us/dotnet/fundamentals/runtime-libraries/system-data-datacolumn-expression).
 Unlike full SQL, not additional commands are supported.  [Little Bobby Tables](https://xkcd.com/327/) should not hurt here.
 
-|Type      |Required|Position|PipelineInput        |Aliases                               |
-|----------|--------|--------|---------------------|--------------------------------------|
-|`[String]`|false   |1       |true (ByPropertyName)|DataExpression<br/>Condition<br/>Where|
+|Type      |Required|Position|PipelineInput        |Aliases                                                                 |
+|----------|--------|--------|---------------------|------------------------------------------------------------------------|
+|`[String]`|false   |1       |true (ByPropertyName)|FilterExpression<br/>Condition<br/>Where<br/>WhereFilter<br/>WhereClause|
 
 #### **Sort**
 The columns to sort.
@@ -83,5 +84,5 @@ This allows you to customize how the objects will be displayed in PowerShell.
 
 ### Syntax
 ```PowerShell
-Select-PSDatatable -DataTable <DataTable> [[-Expression] <String>] [[-Sort] <String[]>] [[-SortOrder] <String[]>] [[-TypeName] <String[]>] [<CommonParameters>]
+Select-PSDatatable -DataTable <DataTable> [[-WhereExpression] <String>] [[-Sort] <String[]>] [[-SortOrder] <String[]>] [[-TypeName] <String[]>] [<CommonParameters>]
 ```
