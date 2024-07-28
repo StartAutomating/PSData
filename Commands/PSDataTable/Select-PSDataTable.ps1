@@ -8,12 +8,18 @@ function Select-PSDatatable
     .Example
         $dt = dir | Select Name, LastWriteTime, LastAccessTime, CreationTime |  ConvertTo-DataTable 
         Select-DataTable -DataTable $dt -Sort LastWriteTime -SortOrder Descending
+    .EXAMPLE
+        $myHistory = New-PSDataTable -TableName 'MyHistory' -Rows (Get-History)
+        Select-DataTable -DataTable $myHistory -WhereExpression "CommandLine LIKE 'Get-*'"
+    .EXAMPLE
+        $myHistory = New-PSDataTable -TableName 'MyHistory' -Rows (Get-History)
+        Select-DataTable -DataTable $myHistory -Sort Duration -SortOrder Descending -First 10
     .Link
         New-DataTable
     #>
     [OutputType([Data.DataRow])]
     [Alias('Select-DataTable')]
-    [CmdletBinding(PositionalBinding=$false)]
+    [CmdletBinding(PositionalBinding=$false,SupportsPaging=$true)]
     param(
     # The datatable object.  This is the in-memory database that you want to select data from.
     # To search multiple tables, pipe in an object with a DataTable property.
@@ -32,7 +38,7 @@ function Select-PSDatatable
     [Parameter(Position=0,ValueFromPipelineByPropertyName)]
     [Alias('FilterExpression','Condition','Where','WhereFilter','WhereClause')]
     [string]
-    $WhereExpression,
+    $WhereExpression,    
 
     # The columns to sort.
     [Parameter(Position=1,ValueFromPipelineByPropertyName)]
@@ -73,8 +79,7 @@ function Select-PSDatatable
 
         # If no expression was provided, default to TRUE.  
         # This will select all rows, and is probably preferable to selecting no rows.
-        if (-not $WhereExpression) {
-            Write-Warning "No -WhereExpression was provided.  Selecting all rows."
+        if (-not $WhereExpression) {            
             $WhereExpression = "TRUE"
         }
         
@@ -87,14 +92,33 @@ function Select-PSDatatable
             }
 
         # If a PSTypeName was provided, add it to the selected rows
-        if ($TypeName) {
+        $pagination = $PSCmdlet.PagingParameters        
+        if ($TypeName) {            
             foreach ($selectedRow in $selection) {
+                if ($pagination.Skip) {
+                    $pagination.Skip--
+                    continue
+                }    
                 $selectedRow.pstypenames.clear()
                 foreach ($tn in $TypeName) {
                     $selectedRow.pstypenames.add($tn)
                 }
+                if ($pagination.First -and $selection.IndexOf($selectedRow) -ge $pagination.First) {
+                    break
+                }
                 $selectedRow
             }
+        } elseif ($pagination.First -or $pagination.Skip) {
+            foreach ($selectedRow in $selection) {
+                if ($pagination.Skip) {
+                    $pagination.Skip--
+                    continue
+                }
+                if ($pagination.First -and $selection.IndexOf($selectedRow) -ge $pagination.First) {
+                    break
+                }
+                $selectedRow
+            }            
         } else {
             $selection
         }
