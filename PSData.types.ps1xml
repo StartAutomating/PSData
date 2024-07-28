@@ -85,47 +85,6 @@ foreach ($variable in @(Get-Variable)) {
 }
                     </Script>
       </ScriptMethod>
-      <ScriptProperty>
-        <Name>InputScript</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets the input scripts for the data set
-.DESCRIPTION
-    Gets the input scripts for the current data set.
-
-    Only uniquely named tables will be included in the output.
-#&gt;
-$inputScripts = [Ordered]@{}
-foreach ($table in $this.Tables) {    
-    if (-not $table.TableName) {
-        continue
-    }
-    $inputScripts[$table.TableName] = $table.InputScript
-}
-return $inputScripts
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>TableName</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets the table names
-.DESCRIPTION
-    Gets the table names from the data set.
-.NOTES
-    When the table names are enumerated, they are added as properties to the data set.
-    This makes it easier to access tables by name.
-#&gt;
-@(foreach ($dataTable in $this.Tables) {
-    $dataTable.TableName
-    if (-not $this.psobject.properties[$dataTable.TableName]) {
-        $this.psobject.properties.Add([psnoteproperty]::new($dataTable.TableName, $dataTable), $true)
-    }
-})
-                    </GetScriptBlock>
-      </ScriptProperty>
     </Members>
   </Type>
   <Type>
@@ -152,47 +111,6 @@ foreach ($variable in @(Get-Variable)) {
 }
                     </Script>
       </ScriptMethod>
-      <ScriptProperty>
-        <Name>InputScript</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets the input scripts for the data set
-.DESCRIPTION
-    Gets the input scripts for the current data set.
-
-    Only uniquely named tables will be included in the output.
-#&gt;
-$inputScripts = [Ordered]@{}
-foreach ($table in $this.Tables) {    
-    if (-not $table.TableName) {
-        continue
-    }
-    $inputScripts[$table.TableName] = $table.InputScript
-}
-return $inputScripts
-                    </GetScriptBlock>
-      </ScriptProperty>
-      <ScriptProperty>
-        <Name>TableName</Name>
-        <GetScriptBlock>
-                        &lt;#
-.SYNOPSIS
-    Gets the table names
-.DESCRIPTION
-    Gets the table names from the data set.
-.NOTES
-    When the table names are enumerated, they are added as properties to the data set.
-    This makes it easier to access tables by name.
-#&gt;
-@(foreach ($dataTable in $this.Tables) {
-    $dataTable.TableName
-    if (-not $this.psobject.properties[$dataTable.TableName]) {
-        $this.psobject.properties.Add([psnoteproperty]::new($dataTable.TableName, $dataTable), $true)
-    }
-})
-                    </GetScriptBlock>
-      </ScriptProperty>
     </Members>
   </Type>
   <Type>
@@ -1507,6 +1425,52 @@ if (-not $this) { return }
 @(foreach ($eventSubscriber in [Runspace]::DefaultRunspace.Events.Subscribers) {
     if ($eventSubscriber.SourceObject.GetHashCode() -eq $this.GetHashCode()) {        
         $eventSubscriber
+    }
+})
+                    </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>System.Data.DataSet</Name>
+    <Members>
+      <ScriptProperty>
+        <Name>InputScript</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the input scripts for the data set
+.DESCRIPTION
+    Gets the input scripts for the current data set.
+
+    Only uniquely named tables will be included in the output.
+#&gt;
+$inputScripts = [Ordered]@{}
+foreach ($table in $this.Tables) {    
+    if (-not $table.TableName) {
+        continue
+    }
+    $inputScripts[$table.TableName] = $table.InputScript
+}
+return $inputScripts
+                    </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>TableName</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the table names
+.DESCRIPTION
+    Gets the table names from the data set.
+.NOTES
+    When the table names are enumerated, they are added as properties to the data set.
+    This makes it easier to access tables by name.
+#&gt;
+@(foreach ($dataTable in $this.Tables) {
+    $dataTable.TableName
+    if (-not $this.psobject.properties[$dataTable.TableName]) {
+        $this.psobject.properties.Add([psnoteproperty]::new($dataTable.TableName, $dataTable), $true)
     }
 })
                     </GetScriptBlock>
