@@ -17,17 +17,15 @@ function Watch-PSDataTable {
     [Parameter(ValueFromPipelineByPropertyName)]
     [ScriptBlock[]]
     $EventHandler,
-
-    # The table to watch.  If not provided, the current object will be used.
-    [Parameter(ValueFromPipelineByPropertyName)]
+    
+    # The datatable to watch.  This is the in-memory database that you want to select data from.
+    [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
+    [Alias('Table','Tables','DataTables')]
     [Data.DataTable]
-    [Alias('DataTables')]
     $DataTable
     )
 
     process {
-        if (-not $DataTable) { return }
-
         $myEvents = @(Get-Member -InputObject $DataTable -MemberType Event).Name
         foreach ($nameOfEvent in $EventName) {
             if ($nameOfEvent -notin $myEvents) {
