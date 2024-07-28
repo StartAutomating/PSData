@@ -16,8 +16,9 @@ function Select-PSDatatable
     [CmdletBinding(PositionalBinding=$false)]
     param(
     # The datatable object.  This is the in-memory database that you want to select data from.
+    # To search multiple tables, pipe in an object with a DataTable property.
     [Parameter(Mandatory,ValueFromPipelineByPropertyName)]
-    [Alias('Table','Tables')]
+    [Alias('Table','Tables','DataTables')]
     [Data.DataTable]
     $DataTable,
 
@@ -29,9 +30,9 @@ function Select-PSDatatable
     Unlike full SQL, not additional commands are supported.  [Little Bobby Tables](https://xkcd.com/327/) should not hurt here.
     #>
     [Parameter(Position=0,ValueFromPipelineByPropertyName)]
-    [Alias('DataExpression','Condition','Where')]
+    [Alias('FilterExpression','Condition','Where','WhereFilter','WhereClause')]
     [string]
-    $Expression,
+    $WhereExpression,
 
     # The columns to sort.
     [Parameter(Position=1,ValueFromPipelineByPropertyName)]
@@ -72,14 +73,17 @@ function Select-PSDatatable
 
         # If no expression was provided, default to TRUE.  
         # This will select all rows, and is probably preferable to selecting no rows.
-        if (-not $Expression) { $Expression = "TRUE"}
+        if (-not $WhereExpression) {
+            Write-Warning "No -WhereExpression was provided.  Selecting all rows."
+            $WhereExpression = "TRUE"
+        }
         
         # Select the rows from the datatable
         $selection = 
             if ($realSort) {
-                $DataTable.Select($Expression, $realSort)
+                $DataTable.Select($WhereExpression, $realSort)
             } else {
-                $DataTable.Select($Expression)
+                $DataTable.Select($WhereExpression)
             }
 
         # If a PSTypeName was provided, add it to the selected rows
