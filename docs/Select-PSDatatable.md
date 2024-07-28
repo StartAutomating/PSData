@@ -24,6 +24,18 @@ Selects data from a `[System.Data.Datatable](https://learn.microsoft.com/en-us/d
 $dt = dir | Select Name, LastWriteTime, LastAccessTime, CreationTime |  ConvertTo-DataTable 
 Select-DataTable -DataTable $dt -Sort LastWriteTime -SortOrder Descending
 ```
+> EXAMPLE 2
+
+```PowerShell
+$myHistory = New-PSDataTable -TableName 'MyHistory' -Rows (Get-History)
+Select-DataTable -DataTable $myHistory -WhereExpression "CommandLine LIKE 'Get-*'"
+```
+> EXAMPLE 3
+
+```PowerShell
+$myHistory = New-PSDataTable -TableName 'MyHistory' -Rows (Get-History)
+Select-DataTable -DataTable $myHistory -Sort Duration -SortOrder Descending -First 10
+```
 
 ---
 
@@ -75,6 +87,24 @@ This allows you to customize how the objects will be displayed in PowerShell.
 |------------|--------|--------|---------------------|--------------------------------------|
 |`[String[]]`|false   |4       |true (ByPropertyName)|Decorate<br/>Decoration<br/>PSTypeName|
 
+#### **IncludeTotalCount**
+
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[Switch]`|false   |named   |false        |
+
+#### **Skip**
+
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[UInt64]`|false   |named   |false        |
+
+#### **First**
+
+|Type      |Required|Position|PipelineInput|
+|----------|--------|--------|-------------|
+|`[UInt64]`|false   |named   |false        |
+
 ---
 
 ### Outputs
@@ -84,5 +114,5 @@ This allows you to customize how the objects will be displayed in PowerShell.
 
 ### Syntax
 ```PowerShell
-Select-PSDatatable -DataTable <DataTable> [[-WhereExpression] <String>] [[-Sort] <String[]>] [[-SortOrder] <String[]>] [[-TypeName] <String[]>] [<CommonParameters>]
+Select-PSDatatable -DataTable <DataTable> [[-WhereExpression] <String>] [[-Sort] <String[]>] [[-SortOrder] <String[]>] [[-TypeName] <String[]>] [-IncludeTotalCount] [-Skip <UInt64>] [-First <UInt64>] [<CommonParameters>]
 ```
