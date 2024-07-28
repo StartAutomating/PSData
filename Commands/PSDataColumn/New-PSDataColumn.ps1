@@ -10,6 +10,7 @@ function New-PSDataColumn {
         They define the name, data type, and properties of a column in a DataTable.
     #>
     [Alias('New-DataColumn')]
+    [OutputType([Data.DataColumn])]
     param(
     # The name of the column.
     [Parameter(ValueFromPipelineByPropertyName)]
@@ -18,10 +19,11 @@ function New-PSDataColumn {
     $ColumnName,
 
     # The data type of the column.
+    # By default, this is a string.
     [Parameter(ValueFromPipelineByPropertyName)]
     [Alias('ParameterType','Type','DataType')]
     [psobject]
-    $ColumnType,
+    $ColumnType = [string],
 
     # The expression used to create the column.
     [Parameter(ValueFromPipelineByPropertyName)]
@@ -31,9 +33,9 @@ function New-PSDataColumn {
 
     # The mapping type of the column (either an attribute or an element).
     [Parameter(ValueFromPipelineByPropertyName)]
-    [Alias('ColumnMapping')]
+    [Alias('MappingType')]
     [Data.MappingType]
-    $MapppingType,
+    $ColumnMapping,
 
     # If set, the column will auto-increment.
     [Parameter(ValueFromPipelineByPropertyName)]
@@ -131,7 +133,7 @@ function New-PSDataColumn {
             if ($dataPropertyInfo.CanWrite) {
                 $dataPropertyInfo.SetValue($dataColumn, $myParam.Value -as $dataPropertyInfo.PropertyType)
             }
-        }    
+        }
 
         $dataColumn
     }
