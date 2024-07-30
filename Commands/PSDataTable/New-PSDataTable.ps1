@@ -111,25 +111,25 @@ function New-PSDataTable {
                     $ColumnType += $newColumn
                 }
             }
-            # If any columns are left in the queue, we'll add them as strings.
+            # If any columns were provided by name, we'll add them now.
             if ($columnName.Length) {
                 $typeIndex = 0
                 foreach ($name in $ColumnName) {
                     if ($newDataTable.Columns.Count -and 
-                        $newDataTable.Columns[$newColumn.ColumnName]) {
+                        $newDataTable.Columns[$Name]) {
                         Write-Warning "Column $name was already declared"
                         continue
                     }
                     if ($columnType.Length -gt $typeIndex) {
                         $null = $newDataTable.Columns.Add($name, $columnType[$typeIndex])
                     } else {
-                        $null = $newDataTable.Columns.Add($name)
+                        $null = $newDataTable.Columns.Add($name, $(if ($columnType) { $columnType[-1]} else { [string]}))
                     }
                 }
             }
         }
 
-        if ($key -and $column) {
+        if ($key -and $column -or $ColumnName) {
             $newDataTable.PrimaryKey = $newDataTable.Columns[$key]
         }
 
