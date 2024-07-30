@@ -5,7 +5,6 @@
 
 
 * [Import](Import.md)
-* [Binary](Binary.md)
 * [CLIXML](CLIXML.md)
 * [CSV](CSV.md)
 * [JSON](JSON.md)
