@@ -57,9 +57,9 @@ foreach ($item in $search) {
                 $columnData[0].GetType()
             }
         if ($columnType -is [string] -and $columnName -notmatch '(?>name|path)$') {
-            $columnType = "$($columnType.FullName)[]" -as ([Type])
+            $columnType = [string[]]
         }
-        $unrollColumnData = @($columnData | . { process { $_ }})
+        $unrollColumnData = $columnData | . { process { $_ }}
         $newColumnSplat.ColumnType = $columnType        
         if (-not $NewTable.Columns[$columnName]) {                   
             $newColumn = New-PSDataColumn @newColumnSplat
@@ -69,8 +69,12 @@ foreach ($item in $search) {
         if ($null -eq $columnDataInType) {
             $columnDataInType = [DBNull]::Value
         }
-        $newRow[$columnName] = $columnDataInType
-            
+        try {
+            $newRow[$columnName] = $columnDataInType
+        } catch {
+            Write-Error "Failed to set value for column '$columnName' with type '$($newColumnSplat.ColumnType.FullName)'"
+            return
+        }            
     }
     $NewTable.Rows.Add($newRow)
 }
