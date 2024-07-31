@@ -48,7 +48,7 @@ foreach ($item in $search) {
         $columnName = $itemKeyValue.Key
         $newColumnSplat = [Ordered]@{
             ColumnName = $columnName        
-        }
+        }        
         $columnData = @($itemKeyValue.Value)
         $columnType = 
             if ($columnData.Length -gt 1) {
@@ -56,12 +56,16 @@ foreach ($item in $search) {
             } else {
                 $columnData[0].GetType()
             }
+        if ($columnType -is [string] -and $columnName -notmatch '(?>name|path)$') {
+            $columnType = "$($columnType.FullName)[]" -as ([Type])
+        }
+        $unrollColumnData = @($columnData | . { process { $_ }})
         $newColumnSplat.ColumnType = $columnType        
         if (-not $NewTable.Columns[$columnName]) {                   
             $newColumn = New-PSDataColumn @newColumnSplat
             $NewTable.Columns.Add($newColumn)
         }
-        $columnDataInType = $columnData -as $newColumnSplat.ColumnType
+        $columnDataInType = $unrollColumnData -as $newColumnSplat.ColumnType
         if ($null -eq $columnDataInType) {
             $columnDataInType = [DBNull]::Value
         }
