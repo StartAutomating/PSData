@@ -1346,7 +1346,12 @@ foreach ($item in $search) {
             $newColumn = New-PSDataColumn @newColumnSplat
             $NewTable.Columns.Add($newColumn)
         }
-        $newRow[$columnName] = $columnData -as $newColumnSplat.ColumnType
+        $columnDataInType = $columnData -as $newColumnSplat.ColumnType
+        if ($null -eq $columnDataInType) {
+            $columnDataInType = [DBNull]::Value
+        }
+        $newRow[$columnName] = $columnDataInType
+            
     }
     $NewTable.Rows.Add($newRow)
 }
