@@ -4,7 +4,7 @@ param(
 $Search
 )
 
-if (-not ('Directory.DirectorySearcher' -as [Type])) {
+if (-not ('DirectoryServices.DirectorySearcher' -as [Type])) {
     Write-Warning "The 'System.DirectoryServices.DirectorySearcher' type is not available.  Only deserialized LDAP queries will be allowed."    
 } else {
     if ($search -isnot [Directory.DirectorySearcher] -and $search -isnot [Directory.SearchResult]) {
@@ -44,6 +44,10 @@ foreach ($item in $search) {
         }
         $newRow[$columnName] = $itemKeyValue.Value
     }
+}
+
+if ($NewTable.Columns.Count -eq 1 -or $NewTable.Rows.Count -eq 0) {
+    Write-Warning "No properties were found in the search results."    
 }
 
 return ,$NewTable
