@@ -12,10 +12,17 @@ if (-not ('DirectoryServices.DirectorySearcher' -as [Type])) {
             $searchQuery = "($(@(foreach ($keyValue in $search.GetEnumerator()) {
                 "($($keyValue.Key)=$($keyValue.Value))"
             })))"
-            $search = @([DirectoryServices.DirectorySearcher]::new($searchQuery).FindAll())
-
+            $search = @([DirectoryServices.DirectorySearcher]::new($searchQuery))
         }
-    } 
+        elseif ($search -is [string]) {
+            $search = @([DirectoryServices.DirectorySearcher]::new($search))
+        }        
+    }
+    if ($search -is [DirectoryServices.DirectorySearcher]) {
+        Write-Verbose "Searching Active Directory for '$($search.Filter)'"
+        $search = @($search.FindAll())
+        Write-Verbose "Searching Active Directory for '$($search.Length)' results found" 
+    }
 }
 
 if ($this -and $this -is [Data.DataTable]) {
