@@ -1297,10 +1297,10 @@ if (-not ('DirectoryServices.DirectorySearcher' -as [Type])) {
             $searchQuery = "($(@(foreach ($keyValue in $search.GetEnumerator()) {
                 "($($keyValue.Key)=$($keyValue.Value))"
             })))"
-            $search = @([DirectoryServices.DirectorySearcher]::new($searchQuery))
+            $search = [DirectoryServices.DirectorySearcher]::new($searchQuery)
         }
         elseif ($search -is [string]) {
-            $search = @([DirectoryServices.DirectorySearcher]::new($search))
+            $search = [DirectoryServices.DirectorySearcher]::new($search)
         }        
     }
     if ($search -is [DirectoryServices.DirectorySearcher]) {
