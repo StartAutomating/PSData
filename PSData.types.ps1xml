@@ -1292,12 +1292,12 @@ $Search
 if (-not ('DirectoryServices.DirectorySearcher' -as [Type])) {
     Write-Warning "The 'System.DirectoryServices.DirectorySearcher' type is not available.  Only deserialized LDAP queries will be allowed."    
 } else {
-    if ($search -isnot [Directory.DirectorySearcher] -and $search -isnot [Directory.SearchResult]) {
+    if ($search -isnot [DirectoryServices.DirectorySearcher] -and $search -isnot [DirectoryServices.SearchResult]) {
         if ($search -is [Collections.IDictionary]) {
             $searchQuery = "($(@(foreach ($keyValue in $search.GetEnumerator()) {
                 "($($keyValue.Key)=$($keyValue.Value))"
             })))"
-            $search = @([Directory.DirectorySearcher]::new($searchQuery).FindAll())
+            $search = @([DirectoryServices.DirectorySearcher]::new($searchQuery).FindAll())
 
         }
     } 
