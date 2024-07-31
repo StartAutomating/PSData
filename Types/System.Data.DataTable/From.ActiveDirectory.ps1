@@ -56,7 +56,7 @@ foreach ($item in $search) {
             } else {
                 $columnData[0].GetType()
             }
-        if ($columnType -is [string] -and $columnName -notmatch '(?>name|path)$') {
+        if ($columnType -eq [string] -and $columnName -notmatch '(?>name|path)$') {
             $columnType = [string[]]
         }
         $unrollColumnData = $columnData | . { process { $_ }}
@@ -72,7 +72,7 @@ foreach ($item in $search) {
         try {
             $newRow[$columnName] = $columnDataInType
         } catch {
-            Write-Error "Failed to set value for column '$columnName' with type '$($newColumnSplat.ColumnType.FullName)'"
+            Write-Error "Failed to set value for column '$columnName' with type '$($newColumnSplat.ColumnType.FullName)': $_"
             return
         }            
     }
