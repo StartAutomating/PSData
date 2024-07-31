@@ -19,3 +19,4 @@
 * [set_ProgressInterval](set_ProgressInterval.md)
 * [get_SerializationDepth](get_SerializationDepth.md)
 * [set_SerializationDepth](set_SerializationDepth.md)
+* [JsonSchema](JsonSchema.md)
