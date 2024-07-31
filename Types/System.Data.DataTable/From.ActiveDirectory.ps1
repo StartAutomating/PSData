@@ -31,8 +31,10 @@ if ($this -and $this -is [Data.DataTable]) {
     $NewTable = New-PSDataTable -Column LDAP -Key LDAP
 }
 
+$skipCount = 0
 foreach ($item in $search) {
-    if (-not ($item.LDAP -and -not $item.Properties)) {
+    if ((-not $item.LDAP) -and (-not $item.Properties)) {
+        $skipCount++
         continue
     }
     $itemProperties = [Ordered]@{} + $item.Properties
@@ -40,18 +42,28 @@ foreach ($item in $search) {
     $newRow['LDAP'] = $item.LDAP
     foreach ($itemKeyValue in $itemProperties.GetEnumerator()) {
         $columnName = $itemKeyValue.Key
-        if (-not $NewTable.Columns[$columnName]) {
-            $columnType = $itemKeyValue.GetType()
-            $newColumnSplat = [Ordered]@{
-                ColumnName = $columnName
-                ColumnType = $columnType
+        $newColumnSplat = [Ordered]@{
+            ColumnName = $columnName        
+        }
+        $columnData = @($itemKeyValue.Value)
+        $columnType = 
+            if ($columnData.Length -gt 1) {
+                "[$($columnData[0].GetType().FullName)[]]" -as [Type]
+            } else {
+                $columnData[0].GetType()
             }
+        $newColumnSplat.ColumnType = $columnType        
+        if (-not $NewTable.Columns[$columnName]) {                        
             $newColumn = New-PSDataColumn @newColumnSplat
             $NewTable.Columns.Add($newColumn)
         }
-        $newRow[$columnName] = $itemKeyValue.Value
+        $newRow[$columnName] = $columnData -as $newColumnSplat.ColumnType
     }
     $NewTable.Rows.Add($newRow)
+}
+
+if ($skipCount -gt 0) {
+    Write-Warning "Skipped $skipCount items that did not have LDAP or Properties."    
 }
 
 if ($NewTable.Columns.Count -eq 1 -or $NewTable.Rows.Count -eq 0) {
