@@ -27,23 +27,23 @@ if (-not ('DirectoryServices.DirectorySearcher' -as [Type])) {
 
 if ($this -and $this -is [Data.DataTable]) {
     $NewTable = $this
-    if (-not $this.Columns['LDAP']) {
-        $NewTable.Columns.Add((New-PSDataColumn -ColumnName LDAP -ColumnType ([string])))
+    if (-not $this.Columns['Path']) {
+        $NewTable.Columns.Add((New-PSDataColumn -ColumnName Path -ColumnType ([string])))
     }
-    $NewTable.PrimaryKey = $NewTable.Columns['LDAP']
+    $NewTable.PrimaryKey = $NewTable.Columns['Path']
 } else {
-    $NewTable = New-PSDataTable -Column LDAP -Key LDAP
+    $NewTable = New-PSDataTable -Column Path -Key Path
 }
 
 $skipCount = 0
 foreach ($item in $search) {
-    if ((-not $item.LDAP) -and (-not $item.Properties)) {
+    if ((-not $item.Path) -and (-not $item.Properties)) {
         $skipCount++
         continue
     }
     $itemProperties = [Ordered]@{} + $item.Properties
     $newRow = $NewTable.NewRow()
-    $newRow['LDAP'] = $item.LDAP
+    $newRow['Path'] = $item.Path
     foreach ($itemKeyValue in $itemProperties.GetEnumerator()) {
         $columnName = $itemKeyValue.Key
         $newColumnSplat = [Ordered]@{
@@ -52,7 +52,7 @@ foreach ($item in $search) {
         $columnData = @($itemKeyValue.Value)
         $columnType = 
             if ($columnData.Length -gt 1) {
-                "[$($columnData[0].GetType().FullName)[]]" -as [Type]
+                "[$($columnData[0].GetType().FullName)[]]" -as ([Type])
             } else {
                 $columnData[0].GetType()
             }
