@@ -1317,7 +1317,7 @@ if ($this -and $this -is [Data.DataTable]) {
 }
 
 foreach ($item in $search) {
-    if (-not ($item.LDAP -and $item.Properties)) {
+    if (-not ($item.LDAP -and -not $item.Properties)) {
         continue
     }
     $itemProperties = [Ordered]@{} + $item.Properties
