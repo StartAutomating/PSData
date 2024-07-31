@@ -26,7 +26,11 @@ if (-not ('DirectoryServices.DirectorySearcher' -as [Type])) {
 }
 
 if ($this -and $this -is [Data.DataTable]) {
-    $NewTable = $this 
+    $NewTable = $this
+    if (-not $this.Columns['LDAP']) {
+        $NewTable.Columns.Add((New-PSDataColumn -ColumnName LDAP -ColumnType ([string])))
+    }
+    $NewTable.PrimaryKey = $NewTable.Columns['LDAP']
 } else {
     $NewTable = New-PSDataTable -Column LDAP -Key LDAP
 }
