@@ -1336,6 +1336,7 @@ foreach ($item in $search) {
         }
         $newRow[$columnName] = $itemKeyValue.Value
     }
+    $NewTable.Rows.Add($newRow)
 }
 
 if ($NewTable.Columns.Count -eq 1 -or $NewTable.Rows.Count -eq 0) {
