@@ -52,12 +52,12 @@ foreach ($item in $search) {
         $columnData = @($itemKeyValue.Value)
         $columnType = 
             if ($columnData.Length -gt 1) {
-                "[$($columnData[0].GetType().FullName)[]]" -as ([Type])
+                "$($columnData[0].GetType().FullName)[]" -as ([Type])
             } else {
                 $columnData[0].GetType()
             }
         $newColumnSplat.ColumnType = $columnType        
-        if (-not $NewTable.Columns[$columnName]) {                        
+        if (-not $NewTable.Columns[$columnName]) {                   
             $newColumn = New-PSDataColumn @newColumnSplat
             $NewTable.Columns.Add($newColumn)
         }
