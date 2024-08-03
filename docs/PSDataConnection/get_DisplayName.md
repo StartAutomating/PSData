@@ -12,6 +12,6 @@ Gets the display name of a connection.
 
 If the connection has a custom DisplayName property, it will return that.
 
-Otherwise, the .DatabaseName will be returned.
+Otherwise, the `.Database` will be returned.
 
 ---
