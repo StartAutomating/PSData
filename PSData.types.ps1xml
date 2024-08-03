@@ -111,11 +111,49 @@ elseif (
   <Type>
     <Name>PSDataConnection</Name>
     <Members>
+      <ScriptProperty>
+        <Name>ConnectionType</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the type of a connection.
+.DESCRIPTION
+    Gets the type of a connection.
+    
+    If the connection is strongly defined object, it will return the type.
+    If the connection is a custom object, it will return the first PSTypeName.
+#&gt;
+if ($this -isnot [PSCustomObject]) {
+    $this.GetType()
+} else {
+    $this.PSTypeNames[0]
+}
+                    </GetScriptBlock>
+      </ScriptProperty>
     </Members>
   </Type>
   <Type>
     <Name>System.Data.Common.DbConnection</Name>
     <Members>
+      <ScriptProperty>
+        <Name>ConnectionType</Name>
+        <GetScriptBlock>
+                        &lt;#
+.SYNOPSIS
+    Gets the type of a connection.
+.DESCRIPTION
+    Gets the type of a connection.
+    
+    If the connection is strongly defined object, it will return the type.
+    If the connection is a custom object, it will return the first PSTypeName.
+#&gt;
+if ($this -isnot [PSCustomObject]) {
+    $this.GetType()
+} else {
+    $this.PSTypeNames[0]
+}
+                    </GetScriptBlock>
+      </ScriptProperty>
     </Members>
   </Type>
   <Type>
