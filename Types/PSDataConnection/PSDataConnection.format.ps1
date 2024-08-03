@@ -1,2 +1,2 @@
-Write-FormatView -TypeName PSDataConnection, 'System.Data.Common.DbConnection' -Property DastSource, WorkstationId, State -Name Default -GroupByProperty Database
-Write-FormatView -TypeName PSDataConnection, 'System.Data.Common.DbConnection' -Property DataSource, WorkstationId, ClientConnectionId, State -AutoSize -Name ID
+Write-FormatView -TypeName PSDataConnection, 'System.Data.Common.DbConnection' -Property WorkstationId, State -Name Default -GroupByProperty DisplayName
+Write-FormatView -TypeName PSDataConnection, 'System.Data.Common.DbConnection' -Property WorkstationId, ClientConnectionId, State -AutoSize -Name ID -GroupByProperty DisplayName
