@@ -12,7 +12,8 @@ function Get-PSDataCommand
     param()
 
     foreach ($variable in @(Get-Variable)) {
-        if ($variable.Value -is [Data.Common.DbCommand]) {
+        if ($variable.Value -is [Data.Common.DbCommand] -or 
+            $variable.Value.pstypenames -eq 'PSDataCommand') {
             $variable.Value
         }
     }
