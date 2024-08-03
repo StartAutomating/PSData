@@ -57,10 +57,15 @@
         <TableHeaders>
           <TableColumnHeader>
           </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>CommandType</PropertyName>
+              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Query</PropertyName>
               </TableColumnItem>
