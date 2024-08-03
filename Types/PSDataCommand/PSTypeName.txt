@@ -1,3 +1,2 @@
 PSDataCommand
-DataCommand
 System.Data.Common.DbCommand
