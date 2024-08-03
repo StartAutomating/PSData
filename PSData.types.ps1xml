@@ -40,31 +40,15 @@ $this.Table.TableName
     <Name>PSDataCommand</Name>
     <Members>
       <ScriptProperty>
-        <Name>Query</Name>
+        <Name>CommandType</Name>
         <GetScriptBlock>
-                        if ($this -is [Data.Common.DbCommand]) {
-    return $this.CommandText
+                        if ($this -isnot [PSCustomObject]) {
+    $this.GetType()
+} else {
+    $this.PSTypeNames[0]
 }
-elseif ($this -is [ScriptBlock]) {
-    return $this.ToString()
-}
-elseif (
-    $this -is [Management.Automation.CommandInfo] -or 
-    $this -is [Management.Automation.PSVariable] -or 
-    $this -is [Mangement.Automation.PSMethodInfo] -or
-    $this -is [Reflection.MemberInfo]
-) {
-    return $this.Name
-}
-
-
                     </GetScriptBlock>
       </ScriptProperty>
-    </Members>
-  </Type>
-  <Type>
-    <Name>DataCommand</Name>
-    <Members>
       <ScriptProperty>
         <Name>Query</Name>
         <GetScriptBlock>
@@ -91,6 +75,16 @@ elseif (
   <Type>
     <Name>System.Data.Common.DbCommand</Name>
     <Members>
+      <ScriptProperty>
+        <Name>CommandType</Name>
+        <GetScriptBlock>
+                        if ($this -isnot [PSCustomObject]) {
+    $this.GetType()
+} else {
+    $this.PSTypeNames[0]
+}
+                    </GetScriptBlock>
+      </ScriptProperty>
       <ScriptProperty>
         <Name>Query</Name>
         <GetScriptBlock>
