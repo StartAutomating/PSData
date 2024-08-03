@@ -53,10 +53,20 @@ $this.Table.TableName
         <Name>Query</Name>
         <GetScriptBlock>
                         if ($this -is [Data.Common.DbCommand]) {
-    return $this.CommandText
+    return [PSCustomObject]@{
+        PSTypeName='PSDataQuery'
+        Query=$this.CommandText
+        Language='SQL'
+        Command=$this
+    }     
 }
 elseif ($this -is [ScriptBlock]) {
-    return $this.ToString()
+    return [PSCustomObject]@{
+        PSTypeName='PSDataQuery'
+        Query=$this.ToString()
+        Language='PowerShell'
+        Command=$this
+    }
 }
 elseif (
     $this -is [Management.Automation.CommandInfo] -or 
@@ -64,7 +74,13 @@ elseif (
     $this -is [Mangement.Automation.PSMethodInfo] -or
     $this -is [Reflection.MemberInfo]
 ) {
-    return $this.Name
+    return [PSCustomObject]@{
+        PSTypeName='PSDataQuery'
+        Query=$this.Name
+        Language='PowerShell'
+        Command=$this
+    }
+    return 
 }
 
 
@@ -89,10 +105,20 @@ elseif (
         <Name>Query</Name>
         <GetScriptBlock>
                         if ($this -is [Data.Common.DbCommand]) {
-    return $this.CommandText
+    return [PSCustomObject]@{
+        PSTypeName='PSDataQuery'
+        Query=$this.CommandText
+        Language='SQL'
+        Command=$this
+    }     
 }
 elseif ($this -is [ScriptBlock]) {
-    return $this.ToString()
+    return [PSCustomObject]@{
+        PSTypeName='PSDataQuery'
+        Query=$this.ToString()
+        Language='PowerShell'
+        Command=$this
+    }
 }
 elseif (
     $this -is [Management.Automation.CommandInfo] -or 
@@ -100,7 +126,13 @@ elseif (
     $this -is [Mangement.Automation.PSMethodInfo] -or
     $this -is [Reflection.MemberInfo]
 ) {
-    return $this.Name
+    return [PSCustomObject]@{
+        PSTypeName='PSDataQuery'
+        Query=$this.Name
+        Language='PowerShell'
+        Command=$this
+    }
+    return 
 }
 
 
@@ -224,6 +256,17 @@ $this.psobject.properties.Add(
 )
                     </SetScriptBlock>
       </ScriptProperty>
+    </Members>
+  </Type>
+  <Type>
+    <Name>PSDataQuery</Name>
+    <Members>
+      <ScriptMethod>
+        <Name>ToString</Name>
+        <Script>
+                        $this.Query
+                    </Script>
+      </ScriptMethod>
     </Members>
   </Type>
   <Type>
