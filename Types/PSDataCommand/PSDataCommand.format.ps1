@@ -1,1 +1,1 @@
-Write-FormatView -TypeName PSDataCommand, DataCommand, 'System.Data.Common.DbCommand' -Property CommandText 
+Write-FormatView -TypeName PSDataCommand, 'System.Data.Common.DbCommand' -Property Query 
