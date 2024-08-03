@@ -6,11 +6,11 @@
     
     If the connection has a custom DisplayName property, it will return that.
     
-    Otherwise, the .DatabaseName will be returned.
+    Otherwise, the `.Database` will be returned.
 #>
 if ($this.psobject.properties['.DisplayName']) {
     $this.psobject.properties['.DisplayName'].Value
-} elseif ($this.DatabaseName) {
-    $this.DatabaseName
+} elseif ($this.Database) {
+    $this.Database
 }
 
