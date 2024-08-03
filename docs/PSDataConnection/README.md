@@ -4,4 +4,4 @@
 ### Script Methods
 
 
-* [New](New.md)
+* [get_ConnectionType](get_ConnectionType.md)
