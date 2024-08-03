@@ -134,10 +134,14 @@ function Update-PSDataTable {
                 # (the default is an upsert, unless `-Insert` was passed).
                 if ($otherRow -and -not $Insert) {
                     # If it is found, update the items in the row.
+                    
                     foreach ($column in $DataTable.Columns) {
                         $propName = $column.ColumnName
                         $propValue = $NewDataRow.Item($propName)
                         $IsSimpleType = $SimpletypeLookup.ContainsKey($column.DataType.FullName)
+                        if (-not $PSCmdlet.ShouldProcess("Update $propName to $propValue")) {
+                            continue
+                        }
                         $otherRow.Item($propName) = if ($isSimpleType -and $null -ne $propValue) {
                             $propValue
                         } elseif ($propValue) {
@@ -145,20 +149,26 @@ function Update-PSDataTable {
                         } else {
                             [DBNull]::Value
                         }
-                    }                    
+                    }
                 }
                 # If an `$OtherRow` was found (and `-Insert` was passed)
                 elseif ($otherRow -and $Insert) {
                     # Remove the existing row and add the new row.
-                    $DataTable.Rows.Remove($otherRow)
-                    $DataTable.Rows.Add($NewDataRow) 
+                    if ($PSCmdlet.ShouldProcess("Remove $otherRow and add $NewDataRow")) {
+                        $DataTable.Rows.Remove($otherRow)
+                        $DataTable.Rows.Add($NewDataRow) 
+                    }                                        
                 } else {
                     # If no Other Row was not found, add the new row.
-                    $DataTable.Rows.Add($NewDataRow)
+                    if ($PSCmdlet.ShouldProcess("Add $NewDataRow")) {
+                        $DataTable.Rows.Add($NewDataRow)
+                    }
                 }
             } else {
-                # No key, just add it to the table.
-                $DataTable.Rows.Add($NewDataRow) 
+                if ($PSCmdlet.ShouldProcess("Add $NewDataRow")) {
+                    # No key, just add it to the table.
+                    $DataTable.Rows.Add($NewDataRow) 
+                }
             }
             
             # If we're passing thru, return the new row.
