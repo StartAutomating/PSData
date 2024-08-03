@@ -141,12 +141,12 @@ if ($this -isnot [PSCustomObject]) {
     
     If the connection has a custom DisplayName property, it will return that.
     
-    Otherwise, the .DatabaseName will be returned.
+    Otherwise, the `.Database` will be returned.
 #&gt;
 if ($this.psobject.properties['.DisplayName']) {
     $this.psobject.properties['.DisplayName'].Value
-} elseif ($this.DatabaseName) {
-    $this.DatabaseName
+} elseif ($this.Database) {
+    $this.Database
 }
 
 
@@ -200,12 +200,12 @@ if ($this -isnot [PSCustomObject]) {
     
     If the connection has a custom DisplayName property, it will return that.
     
-    Otherwise, the .DatabaseName will be returned.
+    Otherwise, the `.Database` will be returned.
 #&gt;
 if ($this.psobject.properties['.DisplayName']) {
     $this.psobject.properties['.DisplayName'].Value
-} elseif ($this.DatabaseName) {
-    $this.DatabaseName
+} elseif ($this.Database) {
+    $this.Database
 }
 
 
