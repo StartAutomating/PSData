@@ -11,7 +11,9 @@ function Get-PSDataConnection {
     param()
 
     foreach ($variable in @(Get-Variable)) {
-        if ($variable.Value -is [Data.Common.DbConnection]) {
+        if ($variable.Value -is [Data.Common.DbConnection] -or
+            $variable.Value.pstypenames -eq 'PSDataConnection'
+        ) {
             $variable.Value
         }
     }
