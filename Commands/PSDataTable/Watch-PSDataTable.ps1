@@ -32,7 +32,8 @@ function Watch-PSDataTable {
                 continue
             }
             foreach ($handler in $EventHandler) {
-                Register-ObjectEvent -InputObject $dt -EventName $nameOfEvent -Action $handler -SupportEvent
+                $SourceIdentifer = ($DataTable.Namespace, $DataTable.TableName -ne $null -join '.') + "#$EventName"
+                Register-ObjectEvent -InputObject $dt -EventName $nameOfEvent -Action $handler -SupportEvent -SourceIdentifier $SourceIdentifer
             }
         }
     }
