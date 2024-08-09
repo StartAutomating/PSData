@@ -21,9 +21,9 @@ function New-PSDataColumn {
     # The data type of the column.
     # By default, this is a string.
     [Parameter(ValueFromPipelineByPropertyName)]
-    [Alias('ParameterType','Type','DataType')]
+    [Alias('ParameterType','Type','ColumnType','DataTypeName')]
     [psobject]
-    $ColumnType = [string],
+    $DataType = [string],
 
     # The expression used to create the column.
     [Parameter(ValueFromPipelineByPropertyName)]
@@ -85,27 +85,44 @@ function New-PSDataColumn {
     # If set, the column is read-only.
     [Parameter(ValueFromPipelineByPropertyName)]
     [switch]
-    $ReadOnly
+    $ReadOnly,
+
+    # Any additional attributes to add to the column.
+    [Parameter(ValueFromPipelineByPropertyName)]
+    [Alias('Attributes')]
+    [PSObject[]]
+    $Attribute
     )
 
     process {    
         $myParams = [Ordered]@{} + $PSBoundParameters
 
+        if ($dataType -is [string] -and $dataType -as [type]) {
+            $dataType -as [type]                
+        }
+
         $realDataType = 
-            if ($ColumnType -is [type]) {
-                if ($ColumnType -eq [switch]) {
+            if ($DataType -is [type]) {
+                if ($DataType -eq [switch]) {
                     [bool]
-                } 
-                elseif ($ColumnType -eq [IO.FileInfo]) {
-                    [string]                
-                }            
+                }
+                elseif ($DataType -eq [IO.FileInfo]) {
+                    [string]
+                }
+                elseif ($DataType -eq [PSObject]) {
+                    [object]
+                }
+                elseif ($DataType -eq [PSObject[]]) {
+                    [object[]]
+                }          
                 else {
-                    $ColumnType
+                    $DataType
                 }            
-            } elseif ($ColumnType -in 'number','double','single','float') {
+            } elseif ($DataType -in 'number') {
                 [double]
-            } elseif ($columnType -match '^\[' -and ($ColumnType -replace '^\[' -replace '\]$') -as [type]) {
-                ($ColumnType -replace '^\[' -replace '\]$') -as [type]
+            }
+            elseif ($DataType -match '^\[' -and ($DataType -replace '^\[' -replace '\]$') -as [type]) {
+                ($DataType -replace '^\[' -replace '\]$') -as [type]
             }                
             else {
                 [object]
@@ -130,8 +147,10 @@ function New-PSDataColumn {
         if (-not $dataColumn) { return }
         foreach ($myParam in $myParams.GetEnumerator()) {
             $dataPropertyInfo = [Data.DataColumn].GetProperty($myParam.Key)
-            if ($dataPropertyInfo.CanWrite) {
+            if ($dataPropertyInfo.CanWrite -and ($myParam.Value -as $dataPropertyInfo.PropertyType)) {
                 $dataPropertyInfo.SetValue($dataColumn, $myParam.Value -as $dataPropertyInfo.PropertyType)
+            } else {
+                $dataColumn.ExtendedProperties[$myParam.Key] = $myParam.Value
             }
         }
 
