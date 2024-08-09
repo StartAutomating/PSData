@@ -24,13 +24,13 @@ The name of the column.
 |----------|--------|--------|---------------------|-------|
 |`[String]`|false   |1       |true (ByPropertyName)|Name   |
 
-#### **ColumnType**
+#### **DataType**
 The data type of the column.
 By default, this is a string.
 
-|Type        |Required|Position|PipelineInput        |Aliases                            |
-|------------|--------|--------|---------------------|-----------------------------------|
-|`[PSObject]`|false   |2       |true (ByPropertyName)|ParameterType<br/>Type<br/>DataType|
+|Type        |Required|Position|PipelineInput        |Aliases                                               |
+|------------|--------|--------|---------------------|------------------------------------------------------|
+|`[PSObject]`|false   |2       |true (ByPropertyName)|ParameterType<br/>Type<br/>ColumnType<br/>DataTypeName|
 
 #### **Expression**
 The expression used to create the column.
@@ -122,6 +122,13 @@ If set, the column is read-only.
 |----------|--------|--------|---------------------|
 |`[Switch]`|false   |named   |true (ByPropertyName)|
 
+#### **Attribute**
+Any additional attributes to add to the column.
+
+|Type          |Required|Position|PipelineInput        |Aliases   |
+|--------------|--------|--------|---------------------|----------|
+|`[PSObject[]]`|false   |12      |true (ByPropertyName)|Attributes|
+
 ---
 
 ### Outputs
@@ -131,5 +138,5 @@ If set, the column is read-only.
 
 ### Syntax
 ```PowerShell
-New-PSDataColumn [[-ColumnName] <String>] [[-ColumnType] <PSObject>] [[-Expression] <String>] [[-ColumnMapping] {Element | Attribute | SimpleContent | Hidden}] [-AutoIncrement] [[-AutoIncrementSeed] <Int64>] [[-AutoIncrementStep] <Int64>] [[-Caption] <String>] [[-DefaultValue] <Object>] [[-MaxLength] <Int32>] [[-Namespace] <String>] [[-Prefix] <String>] [-Unique] [-ReadOnly] [<CommonParameters>]
+New-PSDataColumn [[-ColumnName] <String>] [[-DataType] <PSObject>] [[-Expression] <String>] [[-ColumnMapping] {Element | Attribute | SimpleContent | Hidden}] [-AutoIncrement] [[-AutoIncrementSeed] <Int64>] [[-AutoIncrementStep] <Int64>] [[-Caption] <String>] [[-DefaultValue] <Object>] [[-MaxLength] <Int32>] [[-Namespace] <String>] [[-Prefix] <String>] [-Unique] [-ReadOnly] [[-Attribute] <PSObject[]>] [<CommonParameters>]
 ```
